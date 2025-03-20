@@ -51,9 +51,13 @@ public class MainApp extends Application {
         leftPane.add(tfAttrAddress, 1, 5);
 
         Label lblAttrRadius = new Label("Radius (km):");
-        TextField tfAttrRadius = new TextField();
+        Slider sldAttrRadius = new Slider();
+        sldAttrRadius.setMin(0);
+        sldAttrRadius.setMax(100);
+        sldAttrRadius.setValue(50);
+        sldAttrRadius.setShowTickLabels(true);
+        leftPane.add(sldAttrRadius, 1, 6);
         leftPane.add(lblAttrRadius, 0, 6);
-        leftPane.add(tfAttrRadius, 1, 6);
 
         // Property Tax with checkbox
         CheckBox lblPropertyTax = new CheckBox("Property Tax");
@@ -88,9 +92,14 @@ public class MainApp extends Application {
         leftPane.add(tfSchoolAddress, 1, 12);
 
         Label lblSchoolRadius = new Label("Radius (km):");
-        TextField tfSchoolRadius = new TextField();
+        Slider sldSchoolRadius = new Slider();
+        sldSchoolRadius.setMin(0);
+        sldSchoolRadius.setMax(100);
+        sldSchoolRadius.setValue(50);
+        sldSchoolRadius.setShowTickLabels(true);
+        leftPane.add(sldSchoolRadius, 1, 13);
         leftPane.add(lblSchoolRadius, 0, 13);
-        leftPane.add(tfSchoolRadius, 1, 13);
+
 
         // Search Button
         Button btnSearch = new Button("Search");
