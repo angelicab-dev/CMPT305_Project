@@ -1,10 +1,14 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.List;
 
 public class MainApp extends Application {
 
@@ -99,16 +103,12 @@ public class MainApp extends Application {
         sldSchoolRadius.setMax(100);
         sldSchoolRadius.setValue(50);
         sldSchoolRadius.setShowTickLabels(true);
-        leftPane.add(sldSchoolRadius, 1, 13);
         leftPane.add(lblSchoolRadius, 0, 13);
-
+        leftPane.add(sldSchoolRadius, 1, 13);
 
         // Search Button
         Button btnSearch = new Button("Search");
         leftPane.add(btnSearch, 0, 14, 2, 1);
-
-        // Add left pane to the root layout
-        root.setLeft(leftPane);
 
         // Right Pane (Map View + Table Tabs)
         VBox rightPane = new VBox();
@@ -125,22 +125,32 @@ public class MainApp extends Application {
         TabPane tabPane = new TabPane();
         tabPane.setPrefHeight(200);
 
-        // Schools Table
-        TableView<CatholicSchool> schoolsTable = new TableView<>();
-        TableColumn<CatholicSchool, String> schoolNameCol = new TableColumn<>("School Name");
-        schoolNameCol.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
-        TableColumn<CatholicSchool, String> streetCol = new TableColumn<>("Street");
-        streetCol.setCellValueFactory(new PropertyValueFactory<>("street"));
-        TableColumn<CatholicSchool, String> postalCodeCol = new TableColumn<>("Postal Code");
-        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        TableColumn<CatholicSchool, String> phoneNumberCol = new TableColumn<>("Phone Number");
-        phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        TableColumn<CatholicSchool, String> websiteCol = new TableColumn<>("Website");
-        websiteCol.setCellValueFactory(new PropertyValueFactory<>("website"));
-        TableColumn<CatholicSchool, String> gradeLevelCol = new TableColumn<>("Grade Level");
-        gradeLevelCol.setCellValueFactory(new PropertyValueFactory<>("gradeLevel"));
+        // Schools Table using School objects
+        TableView<School> schoolsTable = new TableView<>();
+        schoolsTable.setPrefHeight(200);
+        schoolsTable.setPrefWidth(550);
 
-        schoolsTable.getColumns().addAll(schoolNameCol, streetCol, postalCodeCol, phoneNumberCol, websiteCol, gradeLevelCol);
+        TableColumn<School, String> schoolNameCol = new TableColumn<>("School Name");
+        schoolNameCol.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
+        schoolNameCol.setPrefWidth(131);
+
+        TableColumn<School, String> streetCol = new TableColumn<>("Street");
+        streetCol.setCellValueFactory(new PropertyValueFactory<>("street"));
+        streetCol.setPrefWidth(131);
+
+        TableColumn<School, String> postalCodeCol = new TableColumn<>("Postal Code");
+        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        postalCodeCol.setPrefWidth(55);
+
+        TableColumn<School, String> phoneNumberCol = new TableColumn<>("Phone Number");
+        phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        phoneNumberCol.setPrefWidth(100);
+
+        TableColumn<School, String> gradeLevelCol = new TableColumn<>("Grade Level");
+        gradeLevelCol.setCellValueFactory(new PropertyValueFactory<>("gradeLevel"));
+        gradeLevelCol.setPrefWidth(131);
+
+        schoolsTable.getColumns().addAll(schoolNameCol, streetCol, postalCodeCol, phoneNumberCol,gradeLevelCol);
 
         // Create School Tab
         Tab schoolsTab = new Tab("Schools", schoolsTable);
@@ -150,20 +160,77 @@ public class MainApp extends Application {
         Tab attractionsTab = new Tab("Attractions", new Label("Attractions Tab"));
         attractionsTab.setClosable(false);
 
-        // Create Assessed Value Tab
+        // Create Homes Tab
         Tab homeTab = new Tab("Homes", new Label("Homes"));
         homeTab.setClosable(false);
 
-        // Add all tabs to TabPane
         tabPane.getTabs().addAll(homeTab, schoolsTab, attractionsTab);
-
-        // Add components to VBox
         rightPane.getChildren().addAll(mapPane, tabPane);
 
-        // Set VBox as the right pane in BorderPane
+        root.setLeft(leftPane);
         root.setRight(rightPane);
 
-        // Create and show the scene
+        // Search Button Event Handler
+        btnSearch.setOnAction(e -> {
+            if (cbSchools.isSelected()) {
+                // ObservableList for School objects for the TableView
+                ObservableList<School> schoolDataList = FXCollections.observableArrayList();
+                String schoolType = cbSchoolType.getValue();
+                String address = tfSchoolAddress.getText().trim();
+                // If the address is empty then radius filtering is skipped.
+
+
+                // Load Public Schools if "Public" or "All" is selected.
+                if (schoolType.equals("Public") || schoolType.equals("All")) {
+                    try {
+                        PublicSchools publicSchools = new PublicSchools();
+                        List<PublicSchool> pubs = publicSchools.getSchools();
+                        for (PublicSchool ps : pubs) {
+                            // Create a School object from a PublicSchool
+                            School s = new School(
+                                    ps.getSchoolName(),
+                                    ps.getStreet(),
+                                    ps.getPostalCode(),
+                                    ps.getPhoneNumber(),
+                                    ps.getGradeLevel(),
+                                    String.valueOf(ps.getLocation().getLatitude()),
+                                    String.valueOf(ps.getLocation().getLongitude())
+                            );
+                            schoolDataList.add(s);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+                // Load Catholic Schools if "Catholic" or "All" is selected.
+                if (schoolType.equals("Catholic") || schoolType.equals("All")) {
+                    try {
+                        CatholicSchools catholicSchools = new CatholicSchools();
+                        List<CatholicSchool> catholics = catholicSchools.getSchools();
+                        for (CatholicSchool cs : catholics) {
+                            // Create a School object from a CatholicSchool.
+                            School s = new School(
+                                    cs.getSchoolName(),
+                                    cs.getStreet(),
+                                    cs.getPostalCode(),
+                                    cs.getPhoneNumber(),
+                                    cs.getGradeLevel(),
+                                    String.valueOf(cs.getLocation().getLatitude()),
+                                    String.valueOf(cs.getLocation().getLongitude())
+                            );
+                            schoolDataList.add(s);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+                // Refresh the TableView with the new data.
+                schoolsTable.setItems(schoolDataList);
+            }
+        });
+
         Scene scene = new Scene(root, 900, 700);
         primaryStage.setTitle("Home Finder");
         primaryStage.setScene(scene);
