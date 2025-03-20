@@ -15,12 +15,11 @@ public class PropertyAssessments {
 
     /**
      * Makes a PropertyAssessments object by reading data from the csv file.
-     * @param csvFileName csv filename.
      * @throws IOException If the file can't be read or opened.
      */
-    public PropertyAssessments(String csvFileName) throws IOException {
+    public PropertyAssessments() throws IOException {
         this.assessments = new ArrayList<>();
-        readData(csvFileName);
+        readData();
     }
 
     /**
@@ -33,10 +32,10 @@ public class PropertyAssessments {
 
     /**
      * Read the contents of a CSV file line by line and put it in the propertyAssessment collection.
-     * @param csvFileName CSV file
      * @throws IOException If the file cannot be found or read
      */
-    public void readData(String csvFileName) throws IOException {
+    public void readData() throws IOException {
+        String csvFileName = "src/main/resources/Property_Assessment_Data_2024.csv";
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(csvFileName))) {
             reader.readLine(); // Skip header
             String line;

@@ -13,7 +13,7 @@ public class Lab3Main {
         String csvFilePath = "src/main/resources/" + fileName;
 
         try {
-            PropertyAssessments propertyAssessments = new PropertyAssessments(csvFilePath);
+            PropertyAssessments propertyAssessments = new PropertyAssessments();
 
             // Prompt for neighbourhood and filter
             System.out.print("Please enter a neighbourhood name: ");

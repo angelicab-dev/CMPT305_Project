@@ -12,7 +12,7 @@ public class Lab2Main {
         String csvFileName = "src/main/resources/" + fileName;
 
         try {
-            PropertyAssessments propertyAssessments = new PropertyAssessments(csvFileName);
+            PropertyAssessments propertyAssessments = new PropertyAssessments();
             System.out.println("Descriptive statistics of all property assessments");
             printData(propertyAssessments);
 
