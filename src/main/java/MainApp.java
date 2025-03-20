@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -82,7 +83,8 @@ public class MainApp extends Application {
         // Schools School dropdown, Address, Radius
         Label lblSchool = new Label("School:");
         ComboBox<String> cbSchoolType = new ComboBox<>();
-        cbSchoolType.getItems().addAll("Catholic", "Public");
+        cbSchoolType.getItems().addAll("All", "Catholic", "Public");
+        cbSchoolType.setValue("All");
         leftPane.add(lblSchool, 0, 11);
         leftPane.add(cbSchoolType, 1, 11);
 
@@ -108,17 +110,61 @@ public class MainApp extends Application {
         // Add left pane to the root layout
         root.setLeft(leftPane);
 
-        // Right Pane Map View
-        StackPane mapPane = new StackPane();
+        // Right Pane (Map View + Table Tabs)
+        VBox rightPane = new VBox();
+        rightPane.setPadding(new Insets(10));
+        rightPane.setSpacing(10); // Space between map and table tabs
 
+        // Map View at the top
+        StackPane mapPane = new StackPane();
         Label lblMapView = new Label("Map View");
         mapPane.getChildren().add(lblMapView);
+        mapPane.setPrefHeight(450);
 
-        // Put the map pane in the center of the BorderPane
-        root.setCenter(mapPane);
+        // Create TabPane
+        TabPane tabPane = new TabPane();
+        tabPane.setPrefHeight(200);
+
+        // Schools Table
+        TableView<CatholicSchool> schoolsTable = new TableView<>();
+        TableColumn<CatholicSchool, String> schoolNameCol = new TableColumn<>("School Name");
+        schoolNameCol.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
+        TableColumn<CatholicSchool, String> streetCol = new TableColumn<>("Street");
+        streetCol.setCellValueFactory(new PropertyValueFactory<>("street"));
+        TableColumn<CatholicSchool, String> postalCodeCol = new TableColumn<>("Postal Code");
+        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        TableColumn<CatholicSchool, String> phoneNumberCol = new TableColumn<>("Phone Number");
+        phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        TableColumn<CatholicSchool, String> websiteCol = new TableColumn<>("Website");
+        websiteCol.setCellValueFactory(new PropertyValueFactory<>("website"));
+        TableColumn<CatholicSchool, String> gradeLevelCol = new TableColumn<>("Grade Level");
+        gradeLevelCol.setCellValueFactory(new PropertyValueFactory<>("gradeLevel"));
+
+        schoolsTable.getColumns().addAll(schoolNameCol, streetCol, postalCodeCol, phoneNumberCol, websiteCol, gradeLevelCol);
+
+        // Create School Tab
+        Tab schoolsTab = new Tab("Schools", schoolsTable);
+        schoolsTab.setClosable(false);
+
+        // Create Attractions Tab
+        Tab attractionsTab = new Tab("Attractions", new Label("Attractions Tab"));
+        attractionsTab.setClosable(false);
+
+        // Create Assessed Value Tab
+        Tab homeTab = new Tab("Homes", new Label("Homes"));
+        homeTab.setClosable(false);
+
+        // Add all tabs to TabPane
+        tabPane.getTabs().addAll(homeTab, schoolsTab, attractionsTab);
+
+        // Add components to VBox
+        rightPane.getChildren().addAll(mapPane, tabPane);
+
+        // Set VBox as the right pane in BorderPane
+        root.setRight(rightPane);
 
         // Create and show the scene
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 900, 700);
         primaryStage.setTitle("Home Finder");
         primaryStage.setScene(scene);
         primaryStage.show();
