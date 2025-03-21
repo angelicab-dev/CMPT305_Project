@@ -1,5 +1,10 @@
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -36,18 +41,22 @@ public class PublicSchools {
      */
     public void readData() throws IOException {
         String csvFileName = "src/main/resources/Edmonton_Public_Schools.csv";
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(csvFileName))) {
-            // Skip header row
-            reader.readLine();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",");
-                if (values.length >= 10) {
+        try (Reader fileReader = Files.newBufferedReader(Paths.get(csvFileName));
+             CSVReader csvReader = new CSVReaderBuilder(fileReader)
+                     .withSkipLines(1)  // Skip the header row
+                     .build()) {
+
+            String[] values;
+            // Ensure that there are at least 14 columns as expected
+            while ((values = csvReader.readNext()) != null) {
+                if (values.length >= 14) {
                     String schoolName = values[1].trim();
                     PublicSchool school = getPublicSchool(values, schoolName);
                     schools.add(school);
                 }
             }
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
         }
     }
 
