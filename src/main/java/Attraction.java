@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class Attraction {
 
@@ -53,4 +54,8 @@ public class Attraction {
         return facilityName.equals(that.facilityName);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(facilityName);
+    }
 }

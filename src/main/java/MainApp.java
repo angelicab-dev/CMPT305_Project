@@ -136,15 +136,15 @@ public class MainApp extends Application {
 
         TableColumn<School, String> streetCol = new TableColumn<>("Street");
         streetCol.setCellValueFactory(new PropertyValueFactory<>("street"));
-        streetCol.setPrefWidth(131);
+        streetCol.setPrefWidth(121);
 
         TableColumn<School, String> postalCodeCol = new TableColumn<>("Postal Code");
         postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        postalCodeCol.setPrefWidth(55);
+        postalCodeCol.setPrefWidth(75);
 
         TableColumn<School, String> phoneNumberCol = new TableColumn<>("Phone Number");
         phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        phoneNumberCol.setPrefWidth(100);
+        phoneNumberCol.setPrefWidth(90);
 
         TableColumn<School, String> gradeLevelCol = new TableColumn<>("Grade Level");
         gradeLevelCol.setCellValueFactory(new PropertyValueFactory<>("gradeLevel"));
