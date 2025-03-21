@@ -125,6 +125,25 @@ public class MainApp extends Application {
         TabPane tabPane = new TabPane();
         tabPane.setPrefHeight(200);
 
+        // Home Table using PropertyAssessment objects
+        TableView<PropertyAssessment> homesTable = new TableView<>();
+        homesTable.setPrefHeight(200);
+        homesTable.setPrefWidth(550);
+
+        TableColumn<PropertyAssessment, String> assessedValueCol = new TableColumn<>("Assessed Value");
+        assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
+        assessedValueCol.setMinWidth(183);
+
+        TableColumn<PropertyAssessment, String> addressCol = new TableColumn<>("Address");
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        addressCol.setMinWidth(183);
+
+        TableColumn<PropertyAssessment, String> neighbourhoodCol = new TableColumn<>("Neighbourhood");
+        neighbourhoodCol.setCellValueFactory(new PropertyValueFactory<>("neighbourhood"));
+        neighbourhoodCol.setMinWidth(183);
+
+        homesTable.getColumns().addAll(assessedValueCol, addressCol, neighbourhoodCol);
+
         // Schools Table using School objects
         TableView<School> schoolsTable = new TableView<>();
         schoolsTable.setPrefHeight(200);
@@ -180,7 +199,7 @@ public class MainApp extends Application {
         attractionsTab.setClosable(false);
 
         // Create Homes Tab
-        Tab homeTab = new Tab("Homes", new Label("Homes"));
+        Tab homeTab = new Tab("Homes", homesTable);
         homeTab.setClosable(false);
 
         tabPane.getTabs().addAll(homeTab, schoolsTab, attractionsTab);
