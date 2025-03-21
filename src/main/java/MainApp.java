@@ -152,12 +152,31 @@ public class MainApp extends Application {
 
         schoolsTable.getColumns().addAll(schoolNameCol, streetCol, postalCodeCol, phoneNumberCol,gradeLevelCol);
 
+        // Attraction Table using Attraction objects
+        TableView<Attraction> attractionsTable = new TableView<>();
+        attractionsTable.setPrefHeight(200);
+        attractionsTable.setPrefWidth(550);
+
+        TableColumn<Attraction, String> attractionNameCol = new TableColumn<>("Attraction Name");
+        attractionNameCol.setCellValueFactory(new PropertyValueFactory<>("attractionName"));
+        attractionNameCol.setPrefWidth(183);
+
+        TableColumn<Attraction, String> attractionTypeCol = new TableColumn<>("Attraction Type");
+        attractionTypeCol.setCellValueFactory(new PropertyValueFactory<>("attractionType"));
+        attractionTypeCol.setPrefWidth(183);
+
+        TableColumn<Attraction, String> attractionAddressCol = new TableColumn<>("Address");
+        attractionAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        attractionAddressCol.setPrefWidth(183);
+
+        attractionsTable.getColumns().addAll(attractionNameCol, attractionTypeCol, attractionAddressCol);
+
         // Create School Tab
         Tab schoolsTab = new Tab("Schools", schoolsTable);
         schoolsTab.setClosable(false);
 
         // Create Attractions Tab
-        Tab attractionsTab = new Tab("Attractions", new Label("Attractions Tab"));
+        Tab attractionsTab = new Tab("Attractions", attractionsTable);
         attractionsTab.setClosable(false);
 
         // Create Homes Tab
