@@ -115,11 +115,16 @@ public class MainApp extends Application {
         rightPane.setPadding(new Insets(10));
         rightPane.setSpacing(10); // Space between map and table tabs
 
+        /*
         // Map View at the top
         StackPane mapPane = new StackPane();
         Label lblMapView = new Label("Map View");
         mapPane.getChildren().add(lblMapView);
         mapPane.setPrefHeight(450);
+
+         */
+
+        MapView mapPane = new MapView();
 
         // Create TabPane
         TabPane tabPane = new TabPane();
