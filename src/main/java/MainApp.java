@@ -132,6 +132,7 @@ public class MainApp extends Application {
         rightPane.setPadding(new Insets(10));
         rightPane.setSpacing(10); // Space between map and table tabs
 
+        // Map View
         MapView mapPane = new MapView();
         mapPane.setPrefSize(600, 450);
 
