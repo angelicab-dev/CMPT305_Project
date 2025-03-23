@@ -13,6 +13,18 @@ import java.util.List;
 
 public class MainApp extends Application {
 
+    // Helper method: calculates the distance between two points in km using the Haversine formula.
+    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371; // Earth radius in km
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
     @Override
     public void start(Stage primaryStage) {
         // Use a BorderPane to split the window into left for the filters and right for the map.
@@ -59,9 +71,11 @@ public class MainApp extends Application {
         Label lblAttrRadius = new Label("Radius (km):");
         Slider sldAttrRadius = new Slider();
         sldAttrRadius.setMin(0);
-        sldAttrRadius.setMax(100);
-        sldAttrRadius.setValue(50);
+        sldAttrRadius.setMax(10);
+        sldAttrRadius.setValue(5);
+        sldAttrRadius.setMajorTickUnit(2);
         sldAttrRadius.setShowTickLabels(true);
+        sldAttrRadius.setShowTickMarks(true);
         leftPane.add(sldAttrRadius, 1, 6);
         leftPane.add(lblAttrRadius, 0, 6);
 
@@ -101,9 +115,11 @@ public class MainApp extends Application {
         Label lblSchoolRadius = new Label("Radius (km):");
         Slider sldSchoolRadius = new Slider();
         sldSchoolRadius.setMin(0);
-        sldSchoolRadius.setMax(100);
-        sldSchoolRadius.setValue(50);
+        sldSchoolRadius.setMax(10);
+        sldSchoolRadius.setValue(5);
+        sldSchoolRadius.setMajorTickUnit(2);
         sldSchoolRadius.setShowTickLabels(true);
+        sldSchoolRadius.setShowTickMarks(true);
         leftPane.add(lblSchoolRadius, 0, 13);
         leftPane.add(sldSchoolRadius, 1, 13);
 
@@ -298,7 +314,39 @@ public class MainApp extends Application {
                     }
                 }
 
-                // Refresh the TableView with the new data.
+                // If the user has provided a property address, use it as the center for radius filtering.
+                String centerAddress = tfSchoolAddress.getText().trim();
+                if (!centerAddress.isEmpty()) {
+                    try {
+                        // Load all property assessments to find the matching property
+                        PropertyAssessments propertyAssessments = new PropertyAssessments();
+                        PropertyAssessment centerProperty = null;
+                        for (PropertyAssessment pa : propertyAssessments.getAssessments()) {
+                            if (pa.getAddress().getFullAddress().equalsIgnoreCase(centerAddress)) {
+                                centerProperty = pa;
+                                break;
+                            }
+                        }
+                        // If found, use its location as the center for the radius filter
+                        if (centerProperty != null) {
+                            double centerLat = centerProperty.getLocation().getLatitude();
+                            double centerLon = centerProperty.getLocation().getLongitude();
+                            double radiusKm = sldSchoolRadius.getValue();
+                            ObservableList<School> filteredSchools = FXCollections.observableArrayList();
+                            for (School s : schoolDataList) {
+                                double schoolLat = s.getLocation().getLatitude();
+                                double schoolLon = s.getLocation().getLongitude();
+                                double distance = calculateDistance(centerLat, centerLon, schoolLat, schoolLon);
+                                if (distance <= radiusKm) {
+                                    filteredSchools.add(s);
+                                }
+                            }
+                            schoolDataList = filteredSchools;
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
                 schoolsTable.setItems(schoolDataList);
             }
         });
