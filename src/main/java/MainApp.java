@@ -138,7 +138,7 @@ public class MainApp extends Application {
         mapPane.setPrefSize(450, 450);
 
         // Example Markers
-        mapPane.addMarker(53.5461, -113.4938); // middle
+        mapPane.addMarker(53.5461, -113.4938); // middle Edmonton
         mapPane.addMarker(53.657116, -113.320418); // top-right
         mapPane.addMarker(53.393703, -113.720049); // bottom-left
 
