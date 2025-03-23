@@ -31,6 +31,14 @@ public class PropertyAssessments {
     }
 
     /**
+     * Returns the list of property assessments.
+     * @return The list of property assessments.
+     */
+    public List<PropertyAssessment> getAssessments() {
+        return assessments;
+    }
+
+    /**
      * Read the contents of a CSV file line by line and put it in the propertyAssessment collection.
      * @throws IOException If the file cannot be found or read
      */

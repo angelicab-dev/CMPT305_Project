@@ -169,7 +169,7 @@ public class MainApp extends Application {
         gradeLevelCol.setCellValueFactory(new PropertyValueFactory<>("gradeLevel"));
         gradeLevelCol.setPrefWidth(131);
 
-        schoolsTable.getColumns().addAll(schoolNameCol, streetCol, postalCodeCol, phoneNumberCol,gradeLevelCol);
+        schoolsTable.getColumns().addAll(schoolNameCol, streetCol, postalCodeCol, phoneNumberCol, gradeLevelCol);
 
         // Attraction Table using Attraction objects
         TableView<Attraction> attractionsTable = new TableView<>();
@@ -190,6 +190,10 @@ public class MainApp extends Application {
 
         attractionsTable.getColumns().addAll(attractionNameCol, attractionTypeCol, attractionAddressCol);
 
+        // Create Homes Tab
+        Tab homeTab = new Tab("Homes", homesTable);
+        homeTab.setClosable(false);
+
         // Create School Tab
         Tab schoolsTab = new Tab("Schools", schoolsTable);
         schoolsTab.setClosable(false);
@@ -197,10 +201,6 @@ public class MainApp extends Application {
         // Create Attractions Tab
         Tab attractionsTab = new Tab("Attractions", attractionsTable);
         attractionsTab.setClosable(false);
-
-        // Create Homes Tab
-        Tab homeTab = new Tab("Homes", homesTable);
-        homeTab.setClosable(false);
 
         tabPane.getTabs().addAll(homeTab, schoolsTab, attractionsTab);
         rightPane.getChildren().addAll(mapPane, tabPane);
@@ -210,13 +210,44 @@ public class MainApp extends Application {
 
         // Search Button Event Handler
         btnSearch.setOnAction(e -> {
+            if (cbAssessedValue.isSelected()) {
+                try {
+                    // Load all property assessments from the CSV
+                    PropertyAssessments propertyAssessments = new PropertyAssessments();
+
+                    // First, filter by "Residential" only
+                    PropertyAssessments residentialOnly = propertyAssessments.filterByAssessmentClass("Residential");
+
+                    // Determine min and max values from the text fields
+                    int minValue = tfMinAssessed.getText().isEmpty()
+                            ? residentialOnly.calculateMinAssessedValue()
+                            : Integer.parseInt(tfMinAssessed.getText().trim());
+                    int maxValue = tfMaxAssessed.getText().isEmpty()
+                            ? residentialOnly.calculateMaxAssessedValue()
+                            : Integer.parseInt(tfMaxAssessed.getText().trim());
+
+                    // Filter the properties within that range
+                    ObservableList<PropertyAssessment> filteredProperties = FXCollections.observableArrayList();
+                    for (PropertyAssessment pa : residentialOnly.getAssessments()) {
+                        if (pa.getAssessedValue() >= minValue && pa.getAssessedValue() <= maxValue) {
+                            filteredProperties.add(pa);
+                        }
+                    }
+
+                    // Display them in the Homes table
+                    homesTable.setItems(filteredProperties);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            // If "Schools" is checked, load the school data
             if (cbSchools.isSelected()) {
                 // ObservableList for School objects for the TableView
                 ObservableList<School> schoolDataList = FXCollections.observableArrayList();
                 String schoolType = cbSchoolType.getValue();
                 String address = tfSchoolAddress.getText().trim();
                 // If the address is empty then radius filtering is skipped.
-
 
                 // Load Public Schools if "Public" or "All" is selected.
                 if (schoolType.equals("Public") || schoolType.equals("All")) {
