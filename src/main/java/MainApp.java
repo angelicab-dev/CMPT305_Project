@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+
 public class MainApp extends Application {
 
     // Helper method: calculates the distance between two points in km using the Haversine formula.
@@ -131,16 +132,14 @@ public class MainApp extends Application {
         rightPane.setPadding(new Insets(10));
         rightPane.setSpacing(10); // Space between map and table tabs
 
-        /*
+
         // Map View at the top
         StackPane mapPane = new StackPane();
+        new MapView(mapPane);
         Label lblMapView = new Label("Map View");
         mapPane.getChildren().add(lblMapView);
         mapPane.setPrefHeight(450);
 
-         */
-
-        MapView mapPane = new MapView();
 
         // Create TabPane
         TabPane tabPane = new TabPane();
