@@ -116,14 +116,13 @@ public class MainApp extends Application {
         rightPane.setPadding(new Insets(10));
         rightPane.setSpacing(10); // Space between map and table tabs
 
+        MapView mapPane = new MapView();
+        mapPane.setPrefSize(600, 450);
 
-        // Map View at the top
-        StackPane mapPane = new StackPane();
-        new MapView(mapPane);
-        Label lblMapView = new Label("Map View");
-        mapPane.getChildren().add(lblMapView);
-        mapPane.setPrefHeight(450);
-
+        // Example Markers
+        mapPane.addMarker(53.5461, -113.4938); // middle
+        mapPane.addMarker(53.657116, -113.320418); // top-right
+        mapPane.addMarker(53.393703, -113.720049); // bottom-left
 
         // Create TabPane
         TabPane tabPane = new TabPane();
