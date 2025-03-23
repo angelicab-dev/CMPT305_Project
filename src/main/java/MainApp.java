@@ -158,7 +158,7 @@ public class MainApp extends Application {
         schoolNameCol.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
         schoolNameCol.setPrefWidth(131);
 
-        TableColumn<School, String> streetCol = new TableColumn<>("Street");
+        TableColumn<School, String> streetCol = new TableColumn<>("Address");
         streetCol.setCellValueFactory(new PropertyValueFactory<>("street"));
         streetCol.setPrefWidth(121);
 
@@ -170,7 +170,7 @@ public class MainApp extends Application {
         phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         phoneNumberCol.setPrefWidth(90);
 
-        TableColumn<School, String> gradeLevelCol = new TableColumn<>("Grade Level");
+        TableColumn<School, String> gradeLevelCol = new TableColumn<>("Grade Level(s)");
         gradeLevelCol.setCellValueFactory(new PropertyValueFactory<>("gradeLevel"));
         gradeLevelCol.setPrefWidth(131);
 
@@ -181,11 +181,11 @@ public class MainApp extends Application {
         attractionsTable.setPrefHeight(200);
         attractionsTable.setPrefWidth(550);
 
-        TableColumn<Attraction, String> attractionNameCol = new TableColumn<>("Attraction Name");
+        TableColumn<Attraction, String> attractionNameCol = new TableColumn<>("Name");
         attractionNameCol.setCellValueFactory(new PropertyValueFactory<>("attractionName"));
         attractionNameCol.setPrefWidth(183);
 
-        TableColumn<Attraction, String> attractionTypeCol = new TableColumn<>("Attraction Type");
+        TableColumn<Attraction, String> attractionTypeCol = new TableColumn<>("Type");
         attractionTypeCol.setCellValueFactory(new PropertyValueFactory<>("attractionType"));
         attractionTypeCol.setPrefWidth(183);
 
