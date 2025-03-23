@@ -14,7 +14,7 @@ public class MapView extends Pane {
         // Load Edmonton Map
         Image mapImage = new Image(getClass().getResource("/edmonton.png").toExternalForm());
         mapImageView = new ImageView(mapImage);
-        mapImageView.setFitWidth(600); // Set map width
+        mapImageView.setFitWidth(450); // Set map width
         mapImageView.setFitHeight(450); // Set map height
         this.getChildren().add(mapImageView);
     }

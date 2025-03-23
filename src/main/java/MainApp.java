@@ -135,7 +135,7 @@ public class MainApp extends Application {
 
         // Map View
         MapView mapPane = new MapView();
-        mapPane.setPrefSize(600, 450);
+        mapPane.setPrefSize(450, 450);
 
         // Example Markers
         mapPane.addMarker(53.5461, -113.4938); // middle
