@@ -1,6 +1,8 @@
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
+import org.w3c.dom.Attr;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -62,4 +64,34 @@ public class Attractions {
         Attraction facility = new Attraction(schoolName, latitude, longitude, type, address, quadrant, url);
         return facility;
     }
+
+    public int getTotalAttractions() {
+        return attractions.size();
+    }
+
+    public Attraction findByFacilityName(String facilityName) {
+        for (Attraction facility : attractions) {
+            if (facility.getFacilityName().equalsIgnoreCase(facilityName.trim())) {
+                return facility;
+            }
+        }
+        return null;
+    }
+
+    public Attractions filterByAttractionType(String facilityType) {
+
+        List<Attraction> filteredAttractions = new ArrayList<>();
+        for (Attraction facility : attractions) {
+            if (facility.getAttractionType().equalsIgnoreCase(facilityType.trim())) {
+                filteredAttractions.add(facility);
+            }
+        }
+        return new Attractions(filteredAttractions);
+    }
+
+
+    public List<Attraction> getAttractions() {
+        return attractions;
+    }
+
 }

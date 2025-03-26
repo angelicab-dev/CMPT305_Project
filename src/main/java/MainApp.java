@@ -229,7 +229,9 @@ public class MainApp extends Application {
         root.setLeft(leftPane);
         root.setRight(rightPane);
 
+
         // Search Button Event Handler
+
         btnSearch.setOnAction(e -> {
             if (cbAssessedValue.isSelected()) {
                 try {
