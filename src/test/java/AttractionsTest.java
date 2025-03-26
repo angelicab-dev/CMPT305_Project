@@ -1,6 +1,10 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AttractionsTest {
@@ -11,10 +15,19 @@ class AttractionsTest {
 
     @Test
     void readData() {
+
+        //Attraction result = new Attraction()
     }
 
     @Test
-    void getTotalAttractions() {
+    void getTotalAttractions() throws IOException {
+        List<Attraction> attractions = new ArrayList<>();
+        Attractions test = new Attractions(attractions);
+        test.readData();
+        test.getTotalAttractions();
+
+
+        assertEquals(56,  test.getTotalAttractions());
     }
 
     @Test
