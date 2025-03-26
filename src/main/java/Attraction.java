@@ -10,7 +10,9 @@ public class Attraction {
     private Location attractionLocation;
 
     // Constructor for Attraction
-    public Attraction(String facilityName, String attractionLatitude, String attractionLongitude, String type, String address, String quadrant, String attractionURL) {
+    public Attraction(String facilityName, String attractionLatitude,
+                      String attractionLongitude, String type, String address,
+                      String quadrant, String attractionURL) {
         this.facilityName = facilityName;
         this.attractionLocation = new Location(attractionLatitude, attractionLongitude);
         this.attractionType = type;
