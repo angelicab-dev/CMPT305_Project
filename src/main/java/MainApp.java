@@ -272,26 +272,26 @@ public class MainApp extends Application {
 
                     String attractionAddress = tfAttrAddress.getText().trim();
                     if (!attractionAddress.isEmpty()) {
-                        // Look for an attraction with the provided address
-                        Attraction centerAttraction = null;
-                        for (Attraction facility : allAttractions) {
-                            if (facility.getAttractionAddress().equalsIgnoreCase(attractionAddress)) {
-                                centerAttraction = facility;
+                        // Look for a property assessment with the provided address (similar to the schools filter)
+                        PropertyAssessments propertyAssessments = new PropertyAssessments();
+                        PropertyAssessment centerProperty = null;
+                        for (PropertyAssessment pa : propertyAssessments.getAssessments()) {
+                            if (pa.getAddress().getFullAddress().equalsIgnoreCase(attractionAddress)) {
+                                centerProperty = pa;
                                 break;
                             }
                         }
 
-                        // If found, filter attractions within the specified radius
-                        if (centerAttraction != null) {
-                            double centerLat = centerAttraction.getAttractionLocation().getLatitude();
-                            double centerLon = centerAttraction.getAttractionLocation().getLongitude();
+                        // If a matching property is found, use its location as the center for radius filtering
+                        if (centerProperty != null) {
+                            double centerLat = centerProperty.getLocation().getLatitude();
+                            double centerLon = centerProperty.getLocation().getLongitude();
                             double radiusKm = sldAttrRadius.getValue();
 
                             ObservableList<Attraction> filteredAttractions = FXCollections.observableArrayList();
                             for (Attraction attraction : allAttractions) {
                                 double attractionLat = attraction.getAttractionLocation().getLatitude();
                                 double attractionLon = attraction.getAttractionLocation().getLongitude();
-
                                 double distance = calculateDistance(centerLat, centerLon, attractionLat, attractionLon);
                                 if (distance <= radiusKm) {
                                     filteredAttractions.add(attraction);
@@ -299,16 +299,16 @@ public class MainApp extends Application {
                             }
                             attractionsList = filteredAttractions;
                         }
-                        // If the attraction address wasn't found, we'll use the original list
                     }
 
-                    // Update the attractions table
+                    // Update the attractions table with the (possibly) filtered list.
                     attractionsTable.setItems(attractionsList);
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
+
 
 
             // If "Schools" is checked, load the school data
