@@ -264,6 +264,29 @@ public class MainApp extends Application {
                 }
             }
 
+            if(cbAttractions.isSelected()) {
+                ObservableList<Attraction> attractionsList = FXCollections.observableArrayList();
+                attractionsTable.setItems(attractionsList);
+
+            }
+            String attractionAddress = tfAttrAddress.getText().trim();
+            if(!attractionAddress.isEmpty()) {
+                try{
+                    Attractions attractions = new Attractions();
+                    Attraction centerAttraction =  null;
+                    for(Attraction facility : attractions.getAttractions()){
+                        if(facility.getAttractionAddress().equalsIgnoreCase(attractionAddress)){
+                            centerAttraction = facility;
+                            break;
+                        }
+                    }
+                }
+                catch (IOException ex){
+
+                }
+            }
+
+
             // If "Schools" is checked, load the school data
             if (cbSchools.isSelected()) {
                 // ObservableList for School objects for the TableView
