@@ -198,7 +198,7 @@ public class MainApp extends Application {
         attractionsTable.setPrefWidth(550);
 
         TableColumn<Attraction, String> attractionNameCol = new TableColumn<>("Name");
-        attractionNameCol.setCellValueFactory(new PropertyValueFactory<>("attractionName"));
+        attractionNameCol.setCellValueFactory(new PropertyValueFactory<>("facilityName"));
         attractionNameCol.setPrefWidth(183);
 
         TableColumn<Attraction, String> attractionTypeCol = new TableColumn<>("Type");
@@ -206,7 +206,7 @@ public class MainApp extends Application {
         attractionTypeCol.setPrefWidth(183);
 
         TableColumn<Attraction, String> attractionAddressCol = new TableColumn<>("Address");
-        attractionAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        attractionAddressCol.setCellValueFactory(new PropertyValueFactory<>("attractionAddress"));
         attractionAddressCol.setPrefWidth(183);
 
         attractionsTable.getColumns().addAll(attractionNameCol, attractionTypeCol, attractionAddressCol);
@@ -264,25 +264,49 @@ public class MainApp extends Application {
                 }
             }
 
-            if(cbAttractions.isSelected()) {
-                ObservableList<Attraction> attractionsList = FXCollections.observableArrayList();
-                attractionsTable.setItems(attractionsList);
+            if (cbAttractions.isSelected()) {
+                try {
+                    Attractions attractionsData = new Attractions();
+                    List<Attraction> allAttractions = attractionsData.getAttractions();
+                    ObservableList<Attraction> attractionsList = FXCollections.observableArrayList(allAttractions);
 
-            }
-            String attractionAddress = tfAttrAddress.getText().trim();
-            if(!attractionAddress.isEmpty()) {
-                try{
-                    Attractions attractions = new Attractions();
-                    Attraction centerAttraction =  null;
-                    for(Attraction facility : attractions.getAttractions()){
-                        if(facility.getAttractionAddress().equalsIgnoreCase(attractionAddress)){
-                            centerAttraction = facility;
-                            break;
+                    String attractionAddress = tfAttrAddress.getText().trim();
+                    if (!attractionAddress.isEmpty()) {
+                        // Look for an attraction with the provided address
+                        Attraction centerAttraction = null;
+                        for (Attraction facility : allAttractions) {
+                            if (facility.getAttractionAddress().equalsIgnoreCase(attractionAddress)) {
+                                centerAttraction = facility;
+                                break;
+                            }
                         }
-                    }
-                }
-                catch (IOException ex){
 
+                        // If found, filter attractions within the specified radius
+                        if (centerAttraction != null) {
+                            double centerLat = centerAttraction.getAttractionLocation().getLatitude();
+                            double centerLon = centerAttraction.getAttractionLocation().getLongitude();
+                            double radiusKm = sldAttrRadius.getValue();
+
+                            ObservableList<Attraction> filteredAttractions = FXCollections.observableArrayList();
+                            for (Attraction attraction : allAttractions) {
+                                double attractionLat = attraction.getAttractionLocation().getLatitude();
+                                double attractionLon = attraction.getAttractionLocation().getLongitude();
+
+                                double distance = calculateDistance(centerLat, centerLon, attractionLat, attractionLon);
+                                if (distance <= radiusKm) {
+                                    filteredAttractions.add(attraction);
+                                }
+                            }
+                            attractionsList = filteredAttractions;
+                        }
+                        // If the attraction address wasn't found, we'll use the original list
+                    }
+
+                    // Update the attractions table
+                    attractionsTable.setItems(attractionsList);
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
 
