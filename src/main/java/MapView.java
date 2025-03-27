@@ -55,7 +55,7 @@ public class MapView extends Pane {
                 icon.setIconColor(Color.BLUE);
                 break;
             case "attraction":
-                icon = new FontIcon(FontAwesomeSolid.MAP_MARKER);
+                icon = new FontIcon(FontAwesomeSolid.TREE);
                 icon.setIconColor(Color.GREEN);
                 break;
             default:
