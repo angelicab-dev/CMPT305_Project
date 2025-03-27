@@ -13,6 +13,9 @@ import java.util.List;
 
 public class MainApp extends Application {
 
+    //Sample data:
+    // Assessed value Daddress: 15015 75 AVENUE NW
+
     // Helper method: calculates the distance between two points in km using the Haversine formula.
     public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371; // Earth radius in km
@@ -141,6 +144,12 @@ public class MainApp extends Application {
         mapPane.addMarker(53.5461, -113.4938); // middle Edmonton
         mapPane.addMarker(53.657116, -113.320418); // top-right
         mapPane.addMarker(53.393703, -113.720049); // bottom-left
+
+        //mapPane.addMarker(53.45124394828186, -113.5138927); // bottom-left
+
+        //create a for loop to display
+
+
 
         // Create TabPane
         TabPane tabPane = new TabPane();

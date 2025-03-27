@@ -5,11 +5,19 @@ import java.util.*;
  * Client side main for lab 2.
  */
 public class Lab2Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("CSV Filename: ");
         String fileName = scanner.nextLine();
         String csvFileName = "src/main/resources/" + fileName;
+
+        //testing Attractions:
+        List<Attraction> attractions = new ArrayList<>();
+        Attractions test = new Attractions(attractions);
+        test.readData();
+        //System.out.println("filter: " + test.filterByAttractionType("Pool"));
+        //System.out.println("filter name: " + test.findByFacilityName("Valley Zoo"));
+        System.out.println(Attractions.getAttractions());
 
         try {
             PropertyAssessments propertyAssessments = new PropertyAssessments();

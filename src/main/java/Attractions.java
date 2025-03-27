@@ -8,12 +8,13 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Attractions {
 
     // Stores a list of all attractions from a CSV file
-    private List<Attraction> attractions;
+    private static List<Attraction> attractions;
 
 
 
@@ -29,6 +30,7 @@ public class Attractions {
     }
 
 
+
     public void readData() throws IOException {
         String csvFileName = "src/main/resources/Attractions_20250325.csv";
 
@@ -42,7 +44,7 @@ public class Attractions {
             while ((values = csvReader.readNext()) != null) {
                 if (values.length >= 9) {
                     String attractionName = values[0].trim();
-                    Attraction attraction = getAttraction(values, attractionName);
+                    Attraction attraction = getAttraction(attractionName, values);
                     attractions.add(attraction);
                 }
             }
@@ -52,7 +54,7 @@ public class Attractions {
 
     }
 
-    private static Attraction getAttraction(String[] values, String schoolName) {
+    private static Attraction getAttraction(String facilityName, String[] values) {
         String latitude = values[1].trim();
         String longitude = values[2].trim();
         String type = values[4].trim();
@@ -61,7 +63,7 @@ public class Attractions {
         String url = values[7].trim();
 
 
-        Attraction facility = new Attraction(schoolName, latitude, longitude, type, address, quadrant, url);
+        Attraction facility = new Attraction(facilityName, latitude, longitude, type, address, quadrant, url);
         return facility;
     }
 
@@ -90,8 +92,22 @@ public class Attractions {
     }
 
 
-    public List<Attraction> getAttractions() {
+    public static List<Attraction> getAttractions() {
         return attractions;
     }
 
+
+
+
+    @Override
+    public String toString() {
+        return Arrays.toString(attractions.toArray());
+    }
+
+
+
+
 }
+
+
+
