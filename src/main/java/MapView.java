@@ -1,3 +1,4 @@
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -21,30 +22,15 @@ public class MapView extends Pane {
     }
 
     public void addMarker(double latitude, double longitude) {
-        double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
-        double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
-
-        // Create a FontIcon with the home icon
-        FontIcon homeIcon = new FontIcon(FontAwesomeSolid.HOME);
-        homeIcon.setIconColor(Color.RED);
-        homeIcon.setIconSize(16);
-
-        // Position the icon at the calculated coordinates
-        // Adjust position to center the icon at the point
-        homeIcon.setLayoutX(x - 8);
-        homeIcon.setLayoutY(y + 8);
-
-        this.getChildren().add(homeIcon);
+        // Default to "home" marker if no type provided.
+        addMarker(latitude, longitude, "home");
     }
 
-    // Optional: Add a method for different marker types
     public void addMarker(double latitude, double longitude, String markerType) {
         double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
         double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
 
         FontIcon icon;
-
-        // Choose icon based on marker type
         switch (markerType.toLowerCase()) {
             case "home":
                 icon = new FontIcon(FontAwesomeSolid.HOME);
@@ -64,9 +50,24 @@ public class MapView extends Pane {
         }
 
         icon.setIconSize(16);
+
+        // Apply an outline effect using DropShadow with zero offsets.
+        DropShadow outline = new DropShadow();
+        outline.setRadius(2.0);
+        outline.setSpread(0.7);
+        outline.setOffsetX(0);
+        outline.setOffsetY(0);
+        outline.setColor(Color.BLACK);
+        icon.setEffect(outline);
+
         icon.setLayoutX(x - 8);
         icon.setLayoutY(y + 8);
 
         this.getChildren().add(icon);
+    }
+
+    // Method to clear markers (removes all nodes except the base map image)
+    public void clearMarkers() {
+        this.getChildren().removeIf(node -> node != mapImageView);
     }
 }

@@ -10,11 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-
 public class MainApp extends Application {
-
-    //Sample data:
-    // Assessed value Daddress: 15015 75 AVENUE NW
 
     // Helper method: calculates the distance between two points in km using the Haversine formula.
     public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
@@ -135,21 +131,9 @@ public class MainApp extends Application {
         rightPane.setPadding(new Insets(10));
         rightPane.setSpacing(10); // Space between map and table tabs
 
-
         // Map View
         MapView mapPane = new MapView();
         mapPane.setPrefSize(450, 450);
-
-        // Example Markers
-        mapPane.addMarker(53.5461, -113.4938); // middle Edmonton
-        mapPane.addMarker(53.657116, -113.320418); // top-right
-        mapPane.addMarker(53.393703, -113.720049); // bottom-left
-
-        //mapPane.addMarker(53.45124394828186, -113.5138927); // bottom-left
-
-        //create a for loop to display
-
-
 
         // Create TabPane
         TabPane tabPane = new TabPane();
@@ -238,10 +222,11 @@ public class MainApp extends Application {
         root.setLeft(leftPane);
         root.setRight(rightPane);
 
-
         // Search Button Event Handler
-
         btnSearch.setOnAction(e -> {
+            // Clear the map markers at the start of each search so they don't overlap.
+            mapPane.clearMarkers();
+
             if (cbAssessedValue.isSelected()) {
                 try {
                     // Load all property assessments from the CSV
@@ -268,6 +253,13 @@ public class MainApp extends Application {
 
                     // Display them in the Homes table
                     homesTable.setItems(filteredProperties);
+
+                    // Add markers for each assessed property using the "home" marker type
+                    for (PropertyAssessment pa : filteredProperties) {
+                        double lat = pa.getLocation().getLatitude();
+                        double lon = pa.getLocation().getLongitude();
+                        mapPane.addMarker(lat, lon, "home");
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -281,7 +273,7 @@ public class MainApp extends Application {
 
                     String attractionAddress = tfAttrAddress.getText().trim();
                     if (!attractionAddress.isEmpty()) {
-                        // Look for a property assessment with the provided address (similar to the schools filter)
+                        // Look for a property assessment with the provided address
                         PropertyAssessments propertyAssessments = new PropertyAssessments();
                         PropertyAssessment centerProperty = null;
                         for (PropertyAssessment pa : propertyAssessments.getAssessments()) {
@@ -313,12 +305,16 @@ public class MainApp extends Application {
                     // Update the attractions table with the (possibly) filtered list.
                     attractionsTable.setItems(attractionsList);
 
+                    // Add markers for each attraction using the "attraction" marker type
+                    for (Attraction attraction : attractionsList) {
+                        double lat = attraction.getAttractionLocation().getLatitude();
+                        double lon = attraction.getAttractionLocation().getLongitude();
+                        mapPane.addMarker(lat, lon, "attraction");
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
-
-
 
             // If "Schools" is checked, load the school data
             if (cbSchools.isSelected()) {
@@ -408,6 +404,13 @@ public class MainApp extends Application {
                     }
                 }
                 schoolsTable.setItems(schoolDataList);
+
+                // Add markers for each school using the "school" marker type
+                for (School s : schoolDataList) {
+                    double lat = s.getLocation().getLatitude();
+                    double lon = s.getLocation().getLongitude();
+                    mapPane.addMarker(lat, lon, "school");
+                }
             }
         });
 
