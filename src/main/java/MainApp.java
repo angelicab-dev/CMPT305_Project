@@ -246,6 +246,13 @@ public class MainApp extends Application {
                     // Filter the properties within that range
                     ObservableList<PropertyAssessment> filteredProperties = FXCollections.observableArrayList();
                     for (PropertyAssessment pa : residentialOnly.getAssessments()) {
+                        // Add this filter: if assessed value is less than 10,000, skip it.
+                        if (pa.getAssessedValue() < 10000) {
+                            continue;
+                        }
+                        if (pa.getAddress().getFullAddress().trim().isEmpty()) {
+                            continue;
+                        }
                         if (pa.getAssessedValue() >= minValue && pa.getAssessedValue() <= maxValue) {
                             filteredProperties.add(pa);
                         }

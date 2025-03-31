@@ -5,12 +5,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapView extends Pane {
     private ImageView mapImageView;
-
     private final double minLon = -113.720049, maxLon = -113.320418;
     private final double minLat = 53.393703, maxLat = 53.657116;
+
+    // List to keep track of home markers' positions (latitude and longitude).
+    private List<double[]> homeMarkerPositions = new ArrayList<>();
 
     public MapView() {
         // Load Edmonton Map
@@ -27,6 +31,18 @@ public class MapView extends Pane {
     }
 
     public void addMarker(double latitude, double longitude, String markerType) {
+        // If this is a home marker, check if there's already one within 1 km.
+        if (markerType.equalsIgnoreCase("home")) {
+            for (double[] pos : homeMarkerPositions) {
+                double distance = MainApp.calculateDistance(pos[0], pos[1], latitude, longitude);
+                if (distance < 1.0) { // Skip adding if within 1 km
+                    return;
+                }
+            }
+            // No marker is within 1 km, so add this marker's position.
+            homeMarkerPositions.add(new double[] { latitude, longitude });
+        }
+
         double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
         double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
 
@@ -51,7 +67,7 @@ public class MapView extends Pane {
 
         icon.setIconSize(16);
 
-        // Apply an outline effect using DropShadow with zero offsets.
+        // Apply an outline effect using DropShadow.
         DropShadow outline = new DropShadow();
         outline.setRadius(2.0);
         outline.setSpread(0.7);
@@ -66,8 +82,9 @@ public class MapView extends Pane {
         this.getChildren().add(icon);
     }
 
-    // Method to clear markers (removes all nodes except the base map image)
+    // Clears all markers from the map and resets the home marker positions.
     public void clearMarkers() {
         this.getChildren().removeIf(node -> node != mapImageView);
+        homeMarkerPositions.clear();
     }
 }
