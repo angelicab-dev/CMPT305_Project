@@ -11,19 +11,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainApp extends Application {
-
-    // Helper method: calculates the distance between two points in km using the Haversine formula.
-    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-        final int R = 6371; // Earth radius in km
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    }
-
     @Override
     public void start(Stage primaryStage) {
         // Use a BorderPane to split the window into left for the filters and right for the map.
@@ -300,7 +287,7 @@ public class MainApp extends Application {
                             for (Attraction attraction : allAttractions) {
                                 double attractionLat = attraction.getAttractionLocation().getLatitude();
                                 double attractionLon = attraction.getAttractionLocation().getLongitude();
-                                double distance = calculateDistance(centerLat, centerLon, attractionLat, attractionLon);
+                                double distance = Radius.calculateDistance(centerLat, centerLon, attractionLat, attractionLon);
                                 if (distance <= radiusKm) {
                                     filteredAttractions.add(attraction);
                                 }
@@ -399,7 +386,7 @@ public class MainApp extends Application {
                             for (School s : schoolDataList) {
                                 double schoolLat = s.getLocation().getLatitude();
                                 double schoolLon = s.getLocation().getLongitude();
-                                double distance = calculateDistance(centerLat, centerLon, schoolLat, schoolLon);
+                                double distance = Radius.calculateDistance(centerLat, centerLon, schoolLat, schoolLon);
                                 if (distance <= radiusKm) {
                                     filteredSchools.add(s);
                                 }

@@ -29,7 +29,7 @@ public class MapView extends Pane {
         // If this is a home marker, check if there's already one within 1 km.
         if (markerType.equalsIgnoreCase("home")) {
             for (double[] pos : homeMarkerPositions) {
-                double distance = MainApp.calculateDistance(pos[0], pos[1], latitude, longitude);
+                double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
                 if (distance < 1.0) { // Skip adding if within 1 km
                     return;
                 }
