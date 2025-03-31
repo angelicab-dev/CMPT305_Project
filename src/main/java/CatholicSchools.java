@@ -54,7 +54,6 @@ public class CatholicSchools {
                 }
             }
         } catch (CsvValidationException e) {
-            throw new RuntimeException(e);
         }
     }
 
