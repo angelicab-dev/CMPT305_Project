@@ -25,11 +25,6 @@ public class MapView extends Pane {
         this.getChildren().add(mapImageView);
     }
 
-    public void addMarker(double latitude, double longitude) {
-        // Default to "home" marker if no type provided.
-        addMarker(latitude, longitude, "home");
-    }
-
     public void addMarker(double latitude, double longitude, String markerType) {
         // If this is a home marker, check if there's already one within 1 km.
         if (markerType.equalsIgnoreCase("home")) {
