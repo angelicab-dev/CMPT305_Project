@@ -5,7 +5,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +18,10 @@ public class MainApp extends Application {
         // Use a BorderPane to split the window into left for the filters and right for the map.
         BorderPane root = new BorderPane();
 
+        //Application Icon
+        Image appIcon = new Image(String.valueOf(getClass().getResource("/House_Icon.png")));
+        primaryStage.getIcons().add(appIcon);
+
         // Left Pane (Filters)
         GridPane leftPane = new GridPane();
         leftPane.setPadding(new Insets(20));
@@ -23,22 +29,40 @@ public class MainApp extends Application {
         leftPane.setVgap(10);
 
         // "Filter By" title
-        Label filterByLabel = new Label("Filter By");
+        Label filterByLabel = new Label("FILTER");
         filterByLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
         leftPane.add(filterByLabel, 0, 0, 2, 1);
 
         // Assessed Value with checkbox
         CheckBox cbAssessedValue = new CheckBox("Assessed Value");
+        cbAssessedValue.setStyle(
+                "-fx-font-size: 14px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-min-width: 25px; " +
+                        "-fx-min-height: 25px; "
+        );
+
+        cbAssessedValue.setTextFill(Color.DARKBLUE);
         leftPane.add(cbAssessedValue, 0, 1, 2, 1);
 
         // Min/Max Assessed Value
         Label lblMinAssessed = new Label("Min ($):");
+        lblMinAssessed.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         TextField tfMinAssessed = new TextField();
         tfMinAssessed.setPromptText("Min Assessed Value");
         leftPane.add(lblMinAssessed, 0, 2);
         leftPane.add(tfMinAssessed, 1, 2);
 
         Label lblMaxAssessed = new Label("Max ($):");
+        lblMaxAssessed.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         TextField tfMaxAssessed = new TextField();
         tfMaxAssessed.setPromptText("Max Assessed Value");
         leftPane.add(lblMaxAssessed, 0, 3);
@@ -46,15 +70,29 @@ public class MainApp extends Application {
 
         // Attractions with checkbox
         CheckBox cbAttractions = new CheckBox("Attractions");
+        cbAttractions.setStyle(
+                "-fx-font-size: 14px; " + "-fx-font-weight: bold;" + "-fx-min-width: 25px;" + "-fx-min-height: 25px;" + "-fx-padding: 15px 0px 0px 0px;"
+        );
+        cbAttractions.setTextFill(Color.DARKBLUE);
         leftPane.add(cbAttractions, 0, 4, 2, 1);
 
         // Attractions Address and Radius
         Label lblAttrAddress = new Label("Address:");
+        lblAttrAddress.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         TextField tfAttrAddress = new TextField();
         leftPane.add(lblAttrAddress, 0, 5);
         leftPane.add(tfAttrAddress, 1, 5);
 
         Label lblAttrRadius = new Label("Radius (km):");
+        lblAttrRadius.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         Slider sldAttrRadius = new Slider();
         sldAttrRadius.setMin(0);
         sldAttrRadius.setMax(10);
@@ -67,15 +105,33 @@ public class MainApp extends Application {
 
         // Property Tax with checkbox
         CheckBox lblPropertyTax = new CheckBox("Property Tax");
+        lblPropertyTax.setStyle(
+                "-fx-font-size: 14px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-min-width: 25px; " +
+                        "-fx-min-height: 25px; "
+        );
+        lblPropertyTax.setTextFill(Color.DARKBLUE);
+
+
         leftPane.add(lblPropertyTax, 0, 7, 2, 1);
 
         Label lblMinTax = new Label("Min ($):");
+        lblMinTax.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         TextField tfMinTax = new TextField();
         tfMinTax.setPromptText("Min Tax Value");
         leftPane.add(lblMinTax, 0, 8);
         leftPane.add(tfMinTax, 1, 8);
 
         Label lblMaxTax = new Label("Max ($):");
+        lblMaxTax.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
         TextField tfMaxTax = new TextField();
         tfMaxTax.setPromptText("Max Tax Value");
         leftPane.add(lblMaxTax, 0, 9);
@@ -83,10 +139,20 @@ public class MainApp extends Application {
 
         // Schools with checkbox
         CheckBox cbSchools = new CheckBox("Schools");
+        cbSchools.setStyle(
+                "-fx-font-size: 14px; " + "-fx-font-weight: bold;" + "-fx-min-width: 25px;" + "-fx-min-height: 25px;"+"-fx-padding: 15px 0px 0px 0px;"
+        );
+        cbSchools.setTextFill(Color.DARKBLUE);
+
         leftPane.add(cbSchools, 0, 10, 2, 1);
 
         // Schools School dropdown, Address, Radius
         Label lblSchool = new Label("School:");
+        lblSchool.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         ComboBox<String> cbSchoolType = new ComboBox<>();
         cbSchoolType.getItems().addAll("All", "Catholic", "Public");
         cbSchoolType.setValue("All");
@@ -94,11 +160,21 @@ public class MainApp extends Application {
         leftPane.add(cbSchoolType, 1, 11);
 
         Label lblSchoolAddress = new Label("Address:");
+        lblSchoolAddress.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         TextField tfSchoolAddress = new TextField();
         leftPane.add(lblSchoolAddress, 0, 12);
         leftPane.add(tfSchoolAddress, 1, 12);
 
         Label lblSchoolRadius = new Label("Radius (km):");
+        lblSchoolRadius.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
         Slider sldSchoolRadius = new Slider();
         sldSchoolRadius.setMin(0);
         sldSchoolRadius.setMax(10);
@@ -111,6 +187,15 @@ public class MainApp extends Application {
 
         // Search Button
         Button btnSearch = new Button("Search");
+        btnSearch.setStyle(
+                "-fx-font-size: 16px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-background-color: DARKBLUE; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-padding: 5px 50px; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-background-radius: 8px;"
+        );
         leftPane.add(btnSearch, 0, 14, 2, 1);
 
         // Right Pane (Map View + Table Tabs)
