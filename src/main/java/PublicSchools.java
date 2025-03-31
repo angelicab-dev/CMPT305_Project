@@ -54,7 +54,6 @@ public class PublicSchools {
                 }
             }
         } catch (CsvValidationException e) {
-            throw new RuntimeException(e);
         }
     }
 
