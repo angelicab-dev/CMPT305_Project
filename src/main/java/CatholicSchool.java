@@ -33,31 +33,58 @@ public class CatholicSchool {
         this.location = new Location(latitude, longitude);
     }
 
-    // Getters
+    /**
+     * Returns the name of the school.
+     * @return the school name.
+     */
     public String getSchoolName() {
         return schoolName;
     }
 
+    /**
+     * Returns the street address of the school.
+     * @return the street address.
+     */
     public String getStreet() {
         return street;
     }
 
+    /**
+     * Returns the postal code of the school.
+     * @return the postal code.
+     */
     public String getPostalCode() {
         return postalCode;
     }
 
+    /**
+     * Returns the phone number of the school.
+     * @return the phone number.
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Returns the grade level(s) offered by the school.
+     * @return the grade level(s).
+     */
     public String getGradeLevel() {
         return gradeLevel;
     }
 
+    /**
+     * Returns the programs offered by the school.
+     * @return the programs.
+     */
     public String getPrograms() {
         return programs;
     }
 
+    /**
+     * Returns the location of the school.
+     * @return the longitude and latitude.
+     */
     public Location getLocation() {
         return location;
     }
