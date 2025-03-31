@@ -23,7 +23,7 @@ public class PublicSchool {
      * @param longitude the longitude value as a String.
      */
     public PublicSchool(String schoolName, String street, String postalCode, String phoneNumber,
-                          String gradeLevel, String programs, String latitude, String longitude) {
+                        String gradeLevel, String programs, String latitude, String longitude) {
         this.schoolName = schoolName;
         this.street = street;
         this.postalCode = postalCode;
@@ -33,31 +33,58 @@ public class PublicSchool {
         this.location = new Location(latitude, longitude);
     }
 
-    // Getters
+    /**
+     * Returns the name of the school.
+     * @return the school name.
+     */
     public String getSchoolName() {
         return schoolName;
     }
 
+    /**
+     * Returns the street address.
+     * @return the street address.
+     */
     public String getStreet() {
         return street;
     }
 
+    /**
+     * Returns the postal code.
+     * @return the postal code.
+     */
     public String getPostalCode() {
         return postalCode;
     }
 
+    /**
+     * Returns the phone number.
+     * @return the phone number.
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Returns the grade level(s) offered.
+     * @return the grade level(s).
+     */
     public String getGradeLevel() {
         return gradeLevel;
     }
 
+    /**
+     * Returns the programs offered.
+     * @return the programs.
+     */
     public String getPrograms() {
         return programs;
     }
 
+    /**
+     * Returns the location of the school.
+     * @return the longitude and latitude.
+     */
     public Location getLocation() {
         return location;
     }
