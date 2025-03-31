@@ -10,8 +10,8 @@ import java.util.List;
 
 public class MapView extends Pane {
     private ImageView mapImageView;
-    private final double minLon = -113.720049, maxLon = -113.320418;
-    private final double minLat = 53.393703, maxLat = 53.657116;
+    private final double minLon = -113.7277, maxLon = -113.1880;
+    private final double minLat = 53.3350, maxLat = 53.7170;
 
     // List to keep track of home markers' positions (latitude and longitude).
     private List<double[]> homeMarkerPositions = new ArrayList<>();
