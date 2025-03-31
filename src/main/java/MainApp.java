@@ -133,7 +133,7 @@ public class MainApp extends Application {
 
         // Map View
         MapView mapPane = new MapView();
-        mapPane.setPrefSize(450, 450);
+        mapPane.setPrefSize(375, 450);
 
         // Create TabPane
         TabPane tabPane = new TabPane();

@@ -10,8 +10,8 @@ import java.util.List;
 
 public class MapView extends Pane {
     private ImageView mapImageView;
-    private final double minLon = -113.7277, maxLon = -113.1880;
-    private final double minLat = 53.3350, maxLat = 53.7170;
+    private final double minLon = -113.7312, maxLon = -113.2560;
+    private final double minLat = 53.3333, maxLat = 53.7162;
 
     // List to keep track of home markers' positions (latitude and longitude).
     private List<double[]> homeMarkerPositions = new ArrayList<>();
@@ -20,7 +20,7 @@ public class MapView extends Pane {
         // Load Edmonton Map
         Image mapImage = new Image(getClass().getResource("/edmonton.png").toExternalForm());
         mapImageView = new ImageView(mapImage);
-        mapImageView.setFitWidth(450); // Set map width
+        mapImageView.setFitWidth(375); // Set map width
         mapImageView.setFitHeight(450); // Set map height
         this.getChildren().add(mapImageView);
     }
