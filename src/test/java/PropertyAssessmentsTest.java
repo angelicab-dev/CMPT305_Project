@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.io.IOException;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 class PropertyAssessmentsTest {
 
     private PropertyAssessments propertyAssessments;
@@ -13,15 +13,24 @@ class PropertyAssessmentsTest {
 
     @BeforeEach
     void setUp() {
-        sampleAssessment1 = new PropertyAssessment("1001", 500000, "Main St", "123", "Apt 4B", "Downtown", "Ward 6", "53.5461", "-113.4938", List.of(new AssessmentClass("Residential", "100")));
-        sampleAssessment2 = new PropertyAssessment("1002", 750000, "Broadway", "456", "", "Suburb", "Ward 3", "53.5500", "-113.5000", List.of(new AssessmentClass("Commercial", "100")));
-        sampleAssessment3 = new PropertyAssessment("1003", 300000, "Elm St", "789", "", "Downtown", "Ward 6", "53.5400", "-113.4800", List.of(new AssessmentClass("Residential", "50"), new AssessmentClass("Commercial", "50")));
+        sampleAssessment1 = new PropertyAssessment("1001", 500000, "Main St", "123", "Apt 4B", "Downtown", "Ward 6", "53.5461", "-113.4938",
+                List.of(new AssessmentClass("Residential", "100")));
+        sampleAssessment2 = new PropertyAssessment("1002", 750000, "Broadway", "456", "", "Suburb", "Ward 3", "53.5500", "-113.5000",
+                List.of(new AssessmentClass("Commercial", "100")));
+        sampleAssessment3 = new PropertyAssessment("1003", 300000, "Elm St", "789", "", "Downtown", "Ward 6", "53.5400", "-113.4800",
+                List.of(new AssessmentClass("Residential", "50"), new AssessmentClass("Commercial", "50")));
 
         propertyAssessments = new PropertyAssessments(List.of(sampleAssessment1, sampleAssessment2, sampleAssessment3));
     }
 
     @Test
     void readData() {
+        try {
+            PropertyAssessments assessmentsFromFile = new PropertyAssessments();
+            assertTrue(assessmentsFromFile.getTotalRecords() > 0);
+        } catch (IOException e) {
+            fail("IOException occurred while reading CSV");
+        }
     }
 
     @Test
@@ -55,7 +64,6 @@ class PropertyAssessmentsTest {
         PropertyAssessment result = propertyAssessments.findByAccountNumber("9999"); // Account number that does not exist
         assertNull(result);
     }
-
 
     @Test
     void getTotalRecords() {
@@ -110,5 +118,23 @@ class PropertyAssessmentsTest {
     @Test
     void calculateRangeAssessedValue() {
         assertEquals(450000, propertyAssessments.calculateRangeAssessedValue());
+    }
+
+    @Test
+    void testGetAssessments() {
+        List<PropertyAssessment> assessments = propertyAssessments.getAssessments();
+        assertNotNull(assessments);
+        assertEquals(propertyAssessments.getTotalRecords(), assessments.size());
+        assertEquals(sampleAssessment1, assessments.get(0));
+    }
+
+    @Test
+    void testDefaultConstructor() {
+        try {
+            PropertyAssessments pa = new PropertyAssessments();
+            assertNotNull(pa.getAssessments());
+        } catch (IOException e) {
+            fail("Default constructor threw an IOException");
+        }
     }
 }
