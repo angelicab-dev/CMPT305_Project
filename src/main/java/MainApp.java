@@ -121,6 +121,8 @@ public class MainApp extends Application {
         // Map View
         MapView mapPane = new MapView();
         mapPane.setPrefSize(375, 450);
+        VBox centerPane = new VBox();
+        centerPane.getChildren().add(mapPane);
 
         // Create TabPane
         TabPane tabPane = new TabPane();
@@ -128,8 +130,8 @@ public class MainApp extends Application {
 
         // Home Table using PropertyAssessment objects
         TableView<PropertyAssessment> homesTable = new TableView<>();
-        homesTable.setPrefHeight(200);
-        homesTable.setPrefWidth(550);
+        tabPane.setPrefHeight(700);
+        tabPane.setPrefWidth(500);
 
         TableColumn<PropertyAssessment, String> assessedValueCol = new TableColumn<>("Assessed Value");
         assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
@@ -204,11 +206,15 @@ public class MainApp extends Application {
         attractionsTab.setClosable(false);
 
         tabPane.getTabs().addAll(homeTab, schoolsTab, attractionsTab);
-        rightPane.getChildren().addAll(mapPane, tabPane);
+        //rightPane.getChildren().addAll(mapPane, tabPane);
+        rightPane.getChildren().add(tabPane);
+
+//        root.setLeft(leftPane);
+//        root.setRight(rightPane);
 
         root.setLeft(leftPane);
+        root.setCenter(centerPane);
         root.setRight(rightPane);
-
         // Search Button Event Handler
         btnSearch.setOnAction(e -> {
             // Clear the map markers at the start of each search so they don't overlap.
@@ -408,7 +414,7 @@ public class MainApp extends Application {
             }
         });
 
-        Scene scene = new Scene(root, 900, 700);
+        Scene scene = new Scene(root,1500, 750);
         primaryStage.setTitle("Home Finder");
         primaryStage.setScene(scene);
         primaryStage.show();
