@@ -104,6 +104,7 @@ public class MainApp extends Application {
         );
 
         TextField tfAttrAddress = new TextField();
+        tfAttrAddress.setPromptText("Home Address");
         leftPane.add(lblAttrAddress, 0, 5);
         leftPane.add(tfAttrAddress, 1, 5);
 
@@ -186,6 +187,7 @@ public class MainApp extends Application {
         );
 
         TextField tfSchoolAddress = new TextField();
+        tfSchoolAddress.setPromptText("Home Address");
         leftPane.add(lblSchoolAddress, 0, 12);
         leftPane.add(tfSchoolAddress, 1, 12);
 
