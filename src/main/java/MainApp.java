@@ -2,10 +2,12 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -17,6 +19,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         // Use a BorderPane to split the window into left for the filters and right for the map.
         BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: white;"); // White background for the entire BorderPane
 
         //Application Icon
         Image appIcon = new Image(String.valueOf(getClass().getResource("/House_Icon.png")));
@@ -28,10 +31,25 @@ public class MainApp extends Application {
         leftPane.setHgap(10);
         leftPane.setVgap(10);
 
-        // "Filter By" title
+        // "Filter" title
         Label filterByLabel = new Label("FILTER");
         filterByLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
         leftPane.add(filterByLabel, 0, 0, 2, 1);
+
+        //Filter Icon
+        Image filterIcon = new Image(String.valueOf(getClass().getResource("/filter-icon.png")));
+        ImageView filterIconView = new ImageView(filterIcon);
+        filterIconView.setFitWidth(20);
+        filterIconView.setFitHeight(20);
+        filterIconView.setPreserveRatio(true);
+
+        //Hbox for the filter icon and text
+        HBox hbox = new HBox(10, filterIconView, filterByLabel);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        hbox.setStyle("-fx-padding: 5;");
+
+        //Hbox added to the left pane
+        leftPane.add(hbox, 0, 0, 2, 1);
 
         // Assessed Value with checkbox
         CheckBox cbAssessedValue = new CheckBox("Assessed Value");
@@ -198,16 +216,16 @@ public class MainApp extends Application {
         );
         leftPane.add(btnSearch, 0, 14, 2, 1);
 
-        // Right Pane (Map View + Table Tabs)
-        VBox rightPane = new VBox();
-        rightPane.setPadding(new Insets(10));
-        rightPane.setSpacing(10); // Space between map and table tabs
-
-        // Map View
+        // Center Pane (Map View)
         MapView mapPane = new MapView();
         mapPane.setPrefSize(375, 450);
         VBox centerPane = new VBox();
         centerPane.getChildren().add(mapPane);
+
+        // Right Pane (Table Tabs)
+        VBox rightPane = new VBox();
+        rightPane.setPadding(new Insets(10));
+
 
         // Create TabPane
         TabPane tabPane = new TabPane();
@@ -215,12 +233,13 @@ public class MainApp extends Application {
 
         // Home Table using PropertyAssessment objects
         TableView<PropertyAssessment> homesTable = new TableView<>();
-        tabPane.setPrefHeight(700);
+        tabPane.setPrefHeight(800);
         tabPane.setPrefWidth(500);
 
         TableColumn<PropertyAssessment, String> assessedValueCol = new TableColumn<>("Assessed Value");
+        assessedValueCol.setStyle(String.valueOf(Color.DARKBLUE));
         assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
-        assessedValueCol.setMinWidth(183);
+        assessedValueCol.setMinWidth(140);
 
         TableColumn<PropertyAssessment, String> addressCol = new TableColumn<>("Address");
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -291,11 +310,8 @@ public class MainApp extends Application {
         attractionsTab.setClosable(false);
 
         tabPane.getTabs().addAll(homeTab, schoolsTab, attractionsTab);
-        //rightPane.getChildren().addAll(mapPane, tabPane);
         rightPane.getChildren().add(tabPane);
 
-//        root.setLeft(leftPane);
-//        root.setRight(rightPane);
 
         root.setLeft(leftPane);
         root.setCenter(centerPane);
@@ -501,7 +517,9 @@ public class MainApp extends Application {
 
         Scene scene = new Scene(root,1500, 750);
         primaryStage.setTitle("Home Finder");
+
         primaryStage.setScene(scene);
+
         primaryStage.show();
     }
 
