@@ -21,6 +21,8 @@ public class Attraction {
         this.attractionURL = attractionURL;
     }
 
+
+
     public String getFacilityName() {
         return facilityName;
     }

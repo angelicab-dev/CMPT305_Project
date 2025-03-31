@@ -3,20 +3,30 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AttractionsTest {
+    private Attractions attractions;
+    List<Attraction> attractionList;
 
     @BeforeEach
     void setUp() {
+        attractionList = Arrays.asList(
+                new Attraction("KinsmenTwinArenas", "53.45124394828186", "-113.5138927",
+                        "Arena", "1979 111 St NW, Edmonton, AB T6J 7C6", "SW",
+                        "https://www.edmonton.ca/kinsmentwinarenas/"),
+                new Attraction("Prince of Wales Armouries Heritage Centre", "53.55408799469411", "-113.500148",
+                        "Attraction", "", "NE",
+                        "https://www.edmonton.ca/princeofwales/")
+        );
+
     }
 
     @Test
     void readData() {
-
-        //Attraction result = new Attraction()
     }
 
     @Test

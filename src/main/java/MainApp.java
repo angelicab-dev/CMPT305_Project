@@ -12,7 +12,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainApp extends Application {
     @Override
@@ -351,6 +353,11 @@ public class MainApp extends Application {
                             filteredProperties.add(pa);
                         }
                     }
+
+                    //sort filteredProperties by ascending order
+                    filteredProperties = filteredProperties.stream()
+                            .sorted(Comparator.comparing(PropertyAssessment::getAssessedValue))
+                            .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
                     // Display them in the Homes table
                     homesTable.setItems(filteredProperties);
