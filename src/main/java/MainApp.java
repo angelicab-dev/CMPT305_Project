@@ -241,7 +241,6 @@ public class MainApp extends Application {
         tabPane.setPrefWidth(500);
 
         TableColumn<PropertyAssessment, String> assessedValueCol = new TableColumn<>("Assessed Value");
-        assessedValueCol.setStyle(String.valueOf(Color.DARKBLUE));
         assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
         assessedValueCol.setMinWidth(140);
 
@@ -254,6 +253,18 @@ public class MainApp extends Application {
         neighbourhoodCol.setMinWidth(183);
 
         homesTable.getColumns().addAll(assessedValueCol, addressCol, neighbourhoodCol);
+
+        //Property Tax tab
+        TableView<PropertyTax> propertyTaxTable = new TableView<>();
+        tabPane.setPrefHeight(800);
+        tabPane.setPrefWidth(500);
+
+        TableColumn<PropertyTax, String> test = new TableColumn<>("Property Tax");
+        //assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
+        test.setMinWidth(140);
+
+        propertyTaxTable.getColumns().addAll(test);
+
 
         // Schools Table using School objects
         TableView<School> schoolsTable = new TableView<>();
@@ -305,6 +316,11 @@ public class MainApp extends Application {
         Tab homeTab = new Tab("Homes", homesTable);
         homeTab.setClosable(false);
 
+        // Create Property Tax Tab
+        Tab taxTab = new Tab("Property Tax", propertyTaxTable);
+        taxTab.setClosable(false);
+
+
         // Create School Tab
         Tab schoolsTab = new Tab("Schools", schoolsTable);
         schoolsTab.setClosable(false);
@@ -313,7 +329,7 @@ public class MainApp extends Application {
         Tab attractionsTab = new Tab("Attractions", attractionsTable);
         attractionsTab.setClosable(false);
 
-        tabPane.getTabs().addAll(homeTab, schoolsTab, attractionsTab);
+        tabPane.getTabs().addAll(homeTab,taxTab, schoolsTab, attractionsTab);
         rightPane.getChildren().add(tabPane);
 
 
@@ -440,6 +456,7 @@ public class MainApp extends Application {
                         PublicSchools publicSchools = new PublicSchools();
                         List<PublicSchool> pubs = publicSchools.getSchools();
                         for (PublicSchool ps : pubs) {
+
                             // Create a School object from a PublicSchool
                             School s = new School(
                                     ps.getSchoolName(),

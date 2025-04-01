@@ -13,6 +13,7 @@ public class PropertyTax {
      */
 
     private int propertyValue;
+
     public PropertyTax(int assessedValue) {
         this.propertyValue = assessedValue;
     }
