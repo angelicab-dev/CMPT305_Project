@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class PropertyTax {
 
 
@@ -13,12 +15,16 @@ public class PropertyTax {
      */
 
     private int propertyValue;
+    private List<PropertyAssessment> propertyAssessments;
 
-    public PropertyTax(int assessedValue) {
-        this.propertyValue = assessedValue;
+    //private List<> modifiedAssessmentList;
+
+    public PropertyTax(List<PropertyAssessment> givenPropertyAssessments) {
+        this.propertyAssessments = givenPropertyAssessments;
     }
 
     public double calculatePropertyTax() {
+
         double taxRate = 0.089;
         return propertyValue * taxRate;
     }

@@ -259,8 +259,10 @@ public class MainApp extends Application {
         tabPane.setPrefHeight(800);
         tabPane.setPrefWidth(500);
 
+        /*
+        No content for the Property Tax yet
+        */
         TableColumn<PropertyTax, String> test = new TableColumn<>("Property Tax");
-        //assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
         test.setMinWidth(140);
 
         propertyTaxTable.getColumns().addAll(test);
