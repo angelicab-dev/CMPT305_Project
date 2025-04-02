@@ -476,7 +476,7 @@ public class MainApp extends Application {
                         //pa.propertyTax();
 
                         // Add this filter: if assessed value is less than 10,000, skip it.
-                        if (pa.getPropertyTax() < 10000) {
+                        if (pa.getAssessedValue() < 10000) {
                             continue;
                         }
                         if (pa.getAddress().getFullAddress().trim().isEmpty()) {
@@ -492,6 +492,16 @@ public class MainApp extends Application {
                             .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
                     propertyTaxTable.setItems(filteredProperties);
+
+                    /*
+                    for (PropertyAssessment pa : filteredProperties) {
+                        double lat = pa.getLocation().getLatitude();
+                        double lon = pa.getLocation().getLongitude();
+                        mapPane.addMarker(lat, lon, "tax");
+                        }
+                     */
+
+
                 }
                 catch (IOException ex) {
                     throw new RuntimeException(ex);

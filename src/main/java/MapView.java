@@ -55,6 +55,10 @@ public class MapView extends Pane {
                 icon = new FontIcon(FontAwesomeSolid.TREE);
                 icon.setIconColor(Color.GREEN);
                 break;
+            case "tax":
+                icon = new FontIcon(FontAwesomeSolid.DOLLAR_SIGN);
+                icon.setIconColor(Color.ORANGE);
+                break;
             default:
                 icon = new FontIcon(FontAwesomeSolid.MAP_PIN);
                 icon.setIconColor(Color.PURPLE);
