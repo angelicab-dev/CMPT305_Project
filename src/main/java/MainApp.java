@@ -258,22 +258,21 @@ public class MainApp extends Application {
         tabPane.setPrefHeight(800);
         tabPane.setPrefWidth(500);
 
-        /*
-        No content for the Property Tax yet
-        */
-        TableColumn<PropertyAssessment, String> assessedValueTaxTab = new TableColumn<>("Assessed Value");
+        // Columns for the Property Tax tab
+        TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Property Tax");
+        propertyTaxCol.setCellValueFactory(new PropertyValueFactory<>("propertyTax"));
+        propertyTaxCol.setMinWidth(160);
+
+        TableColumn<PropertyAssessment, Integer> assessedValueTaxTab = new TableColumn<>("Assessed Value");
         assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
         assessedValueTaxTab.setMinWidth(160);
 
-        TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Property Tax");
-        assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("propertyTax"));
-        propertyTaxCol.setMinWidth(160);
 
         TableColumn<PropertyAssessment, String> addressTaxTab = new TableColumn<>("Address");
         addressTaxTab.setCellValueFactory(new PropertyValueFactory<>("address"));
         addressTaxTab.setMinWidth(160);
 
-        propertyTaxTable.getColumns().addAll(assessedValueTaxTab, propertyTaxCol, addressTaxTab);
+        propertyTaxTable.getColumns().addAll(propertyTaxCol, assessedValueTaxTab, addressTaxTab);
 
 
         // Schools Table using School objects
@@ -459,8 +458,7 @@ public class MainApp extends Application {
 
                     PropertyTaxes residentialOnlyTax = propertyTax.filterByAssessmentClass("Residential");
 
-
-                    // Determine min and max values from the text fields for Property
+                    // Determine min and max values from the text fields for Property tax
                     int minValue = tfMinTax.getText().isEmpty()
                             ? (int) residentialOnlyTax.calculateMinPropertyTax()
                             : Integer.parseInt(tfMinTax.getText().trim());
@@ -469,11 +467,8 @@ public class MainApp extends Application {
                             : Integer.parseInt(tfMaxTax.getText().trim());
 
 
-                    //double
-
-                    ObservableList<PropertyAssessment> filteredProperties = FXCollections.observableArrayList();
+                    ObservableList<PropertyAssessment> taxFilteredProperties = FXCollections.observableArrayList();
                     for (PropertyAssessment pa : residentialOnlyTax.getAssessments()) {
-                        //pa.propertyTax();
 
                         // Add this filter: if assessed value is less than 10,000, skip it.
                         if (pa.getAssessedValue() < 10000) {
@@ -483,18 +478,18 @@ public class MainApp extends Application {
                             continue;
                         }
                         if (pa.getPropertyTax() >= minValue && pa.getPropertyTax() <= maxValue) {
-                            filteredProperties.add(pa);
+                            taxFilteredProperties.add(pa);
                         }
                     }
                     //sort filteredProperties by ascending order
-                    filteredProperties = filteredProperties.stream()
+                    taxFilteredProperties = taxFilteredProperties.stream()
                             .sorted(Comparator.comparing(PropertyAssessment::getPropertyTax))
                             .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
-                    propertyTaxTable.setItems(filteredProperties);
+                    propertyTaxTable.setItems(taxFilteredProperties);
 
                     /*
-                    for (PropertyAssessment pa : filteredProperties) {
+                    for (PropertyAssessment pa : taxFilteredProperties) {
                         double lat = pa.getLocation().getLatitude();
                         double lon = pa.getLocation().getLongitude();
                         mapPane.addMarker(lat, lon, "tax");
