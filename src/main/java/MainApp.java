@@ -253,6 +253,7 @@ public class MainApp extends Application {
         homesTable.getColumns().addAll(assessedValueCol, addressCol, neighbourhoodCol);
 
         //Property Tax tab
+        // Table view initializes a table for property tab
         TableView<PropertyAssessment> propertyTaxTable = new TableView<>();
         tabPane.setPrefHeight(800);
         tabPane.setPrefWidth(500);
@@ -260,10 +261,19 @@ public class MainApp extends Application {
         /*
         No content for the Property Tax yet
         */
-        TableColumn<PropertyAssessment, String> test = new TableColumn<>("Property Tax");
-        test.setMinWidth(140);
+        TableColumn<PropertyAssessment, String> assessedValueTaxTab = new TableColumn<>("Assessed Value");
+        assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
+        assessedValueTaxTab.setMinWidth(160);
 
-        propertyTaxTable.getColumns().addAll(test);
+        TableColumn<PropertyAssessment, String> propertyTaxCol = new TableColumn<>("Property Tax");
+        //assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
+        propertyTaxCol.setMinWidth(160);
+
+        TableColumn<PropertyAssessment, String> addressTaxTab = new TableColumn<>("Address");
+        addressTaxTab.setCellValueFactory(new PropertyValueFactory<>("address"));
+        addressTaxTab.setMinWidth(160);
+
+        propertyTaxTable.getColumns().addAll(assessedValueTaxTab, propertyTaxCol, addressTaxTab);
 
 
         // Schools Table using School objects

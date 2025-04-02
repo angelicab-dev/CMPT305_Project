@@ -15,6 +15,8 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     private Location location;
     private List<AssessmentClass> assessmentClasses;
 
+    private int propertyTax = 0;
+
     /**
      * Makes a new PropertyAssessment with the specified details.
      * @param accountNumber The unique account number of each property.
@@ -84,6 +86,15 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     public List<AssessmentClass> getAssessmentClasses() {
         return assessmentClasses;
     }
+
+
+    public int propertyTax(){
+        PropertyTax assessedValueTax = new PropertyTax(this.assessedValue);
+        //this.propertyTax = (int) assessedValueTax.calculatePropertyTax();
+        return this.propertyTax = (int) assessedValueTax.calculatePropertyTax();
+    }
+
+
 
     /**
      * Compares assessed values of one property with another.

@@ -21,6 +21,10 @@ public class PropertyTax {
         this.propertyAssessments = propertyAssessments;
     }
 
+    public PropertyTax(int assessedPropertyValue) {
+        this.propertyValue = assessedPropertyValue;
+    }
+
     public double calculatePropertyTax() {
 
         double taxRate = 0.089;
