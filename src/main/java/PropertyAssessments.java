@@ -186,4 +186,9 @@ public class PropertyAssessments {
         int max = assessments.stream().mapToInt(PropertyAssessment::getAssessedValue).max().orElse(0);
         return max - min;
     }
+
+    public int calculatePropertyTax(){
+
+        return 0;
+    }
 }

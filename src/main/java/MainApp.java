@@ -125,17 +125,15 @@ public class MainApp extends Application {
         leftPane.add(lblAttrRadius, 0, 6);
 
         // Property Tax with checkbox
-        CheckBox lblPropertyTax = new CheckBox("Property Tax");
-        lblPropertyTax.setStyle(
+        CheckBox cbPropertyTax = new CheckBox("Property Tax");
+        cbPropertyTax.setStyle(
                 "-fx-font-size: 14px; " +
                         "-fx-font-weight: bold; " +
                         "-fx-min-width: 25px; " +
                         "-fx-min-height: 25px; "
         );
-        lblPropertyTax.setTextFill(Color.DARKBLUE);
-
-
-        leftPane.add(lblPropertyTax, 0, 7, 2, 1);
+        cbPropertyTax.setTextFill(Color.DARKBLUE);
+        leftPane.add(cbPropertyTax, 0, 7, 2, 1);
 
         Label lblMinTax = new Label("Min ($):");
         lblMinTax.setStyle(
@@ -255,14 +253,14 @@ public class MainApp extends Application {
         homesTable.getColumns().addAll(assessedValueCol, addressCol, neighbourhoodCol);
 
         //Property Tax tab
-        TableView<PropertyTax> propertyTaxTable = new TableView<>();
+        TableView<PropertyAssessment> propertyTaxTable = new TableView<>();
         tabPane.setPrefHeight(800);
         tabPane.setPrefWidth(500);
 
         /*
         No content for the Property Tax yet
         */
-        TableColumn<PropertyTax, String> test = new TableColumn<>("Property Tax");
+        TableColumn<PropertyAssessment, String> test = new TableColumn<>("Property Tax");
         test.setMinWidth(140);
 
         propertyTaxTable.getColumns().addAll(test);
@@ -443,6 +441,49 @@ public class MainApp extends Application {
                     ex.printStackTrace();
                 }
             }
+
+            if(cbPropertyTax.isSelected()) {
+                try{
+                    PropertyAssessments propertyAssessments = new PropertyAssessments();
+                    //PropertyTax propertyTax = new PropertyTax(propertyAssessments.filterByAssessmentClass("Residential"));
+
+                    PropertyAssessments residentialOnlyTax = propertyAssessments.filterByAssessmentClass("Residential");
+
+                    // Determine min and max values from the text fields
+                    int minValue = tfMinTax.getText().isEmpty()
+                            ? residentialOnlyTax.calculateMinAssessedValue()
+                            : Integer.parseInt(tfMinTax.getText().trim());
+                    int maxValue = tfMaxTax.getText().isEmpty()
+                            ? residentialOnlyTax.calculateMaxAssessedValue()
+                            : Integer.parseInt(tfMaxTax.getText().trim());
+
+                    ObservableList<PropertyAssessment> filteredProperties = FXCollections.observableArrayList();
+                    for (PropertyAssessment pa : residentialOnlyTax.getAssessments()) {
+                        // Add this filter: if assessed value is less than 10,000, skip it.
+                        if (pa.getAssessedValue() < 10000) {
+                            continue;
+                        }
+                        if (pa.getAddress().getFullAddress().trim().isEmpty()) {
+                            continue;
+                        }
+                        if (pa.getAssessedValue() >= minValue && pa.getAssessedValue() <= maxValue) {
+                            filteredProperties.add(pa);
+                        }
+                    }
+                    //sort filteredProperties by ascending order
+                    filteredProperties = filteredProperties.stream()
+                            .sorted(Comparator.comparing(PropertyAssessment::getAssessedValue))
+                            .collect(Collectors.toCollection(FXCollections::observableArrayList));
+
+                    propertyTaxTable.setItems(filteredProperties);
+                }
+                catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+
+
 
             // If "Schools" is checked, load the school data
             if (cbSchools.isSelected()) {
