@@ -14,7 +14,6 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     private Neighbourhood neighbourhood;
     private Location location;
     private List<AssessmentClass> assessmentClasses;
-
     private int propertyTax;
 
     /**
@@ -37,6 +36,7 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         this.neighbourhood = new Neighbourhood(neighbourhood, ward);
         this.location = new Location(latitude, longitude);
         this.assessmentClasses = assessmentClasses;
+        this.propertyTax = calculatePropertyTax(this.assessedValue);
     }
 
     /**
@@ -87,7 +87,16 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         return assessmentClasses;
     }
 
+    public int calculatePropertyTax(int propertyValue) {
+        double taxRate = 0.089;
+        return (int) (propertyValue * taxRate);
+    }
 
+    public int getPropertyTax() {
+        return propertyTax;
+    }
+
+    /*
     public int propertyTax(){
         PropertyTaxes assessedValueTax = new PropertyTaxes(this.assessedValue);
         //this.propertyTax = (int) assessedValueTax.calculatePropertyTax();
@@ -98,6 +107,8 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     public int getPropertyTax() {
         return propertyTax;
     }
+
+     */
 
 
 

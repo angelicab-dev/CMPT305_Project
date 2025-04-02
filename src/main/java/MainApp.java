@@ -454,20 +454,18 @@ public class MainApp extends Application {
 
             if(cbPropertyTax.isSelected()) {
                 try{
-                    PropertyAssessments propertyAssessments = new PropertyAssessments();
-                    //PropertyTax propertyTax = new PropertyTax(propertyAssessments.filterByAssessmentClass("Residential"));
+                    //PropertyAssessments propertyAssessments = new PropertyAssessments();
+                    PropertyTaxes propertyTax = new PropertyTaxes();
 
-                    PropertyAssessments residentialOnlyTax = propertyAssessments.filterByAssessmentClass("Residential");
-
-                    //residentialOnlyTax.calculatePropertyTax();
+                    PropertyTaxes residentialOnlyTax = propertyTax.filterByAssessmentClass("Residential");
 
 
-                    // Determine min and max values from the text fields
+                    // Determine min and max values from the text fields for Property
                     int minValue = tfMinTax.getText().isEmpty()
-                            ? residentialOnlyTax.calculateMinAssessedValue()
+                            ? (int) residentialOnlyTax.calculateMinPropertyTax()
                             : Integer.parseInt(tfMinTax.getText().trim());
                     int maxValue = tfMaxTax.getText().isEmpty()
-                            ? residentialOnlyTax.calculateMaxAssessedValue()
+                            ? (int) residentialOnlyTax.calculateMaxPropertyTax()
                             : Integer.parseInt(tfMaxTax.getText().trim());
 
 
@@ -478,21 +476,19 @@ public class MainApp extends Application {
                         //pa.propertyTax();
 
                         // Add this filter: if assessed value is less than 10,000, skip it.
-                        if (pa.getAssessedValue() < 10000) {
+                        if (pa.getPropertyTax() < 10000) {
                             continue;
                         }
                         if (pa.getAddress().getFullAddress().trim().isEmpty()) {
                             continue;
                         }
-                        if (pa.getAssessedValue() >= minValue && pa.getAssessedValue() <= maxValue) {
-                            //pa.propertyTax();
+                        if (pa.getPropertyTax() >= minValue && pa.getPropertyTax() <= maxValue) {
                             filteredProperties.add(pa);
-                            //pa.propertyTax();
                         }
                     }
                     //sort filteredProperties by ascending order
                     filteredProperties = filteredProperties.stream()
-                            .sorted(Comparator.comparing(PropertyAssessment::getAssessedValue))
+                            .sorted(Comparator.comparing(PropertyAssessment::getPropertyTax))
                             .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
                     propertyTaxTable.setItems(filteredProperties);
