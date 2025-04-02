@@ -489,13 +489,13 @@ public class MainApp extends Application {
 
                     propertyTaxTable.setItems(taxFilteredProperties);
 
-                    /*
+
                     for (PropertyAssessment pa : taxFilteredProperties) {
                         double lat = pa.getLocation().getLatitude();
                         double lon = pa.getLocation().getLongitude();
                         mapPane.addMarker(lat, lon, "tax");
                         }
-                     */
+
 
 
                 }

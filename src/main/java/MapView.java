@@ -26,8 +26,8 @@ public class MapView extends Pane {
     }
 
     public void addMarker(double latitude, double longitude, String markerType) {
-        // If this is a home marker, check if there's already one within 1 km.
-        if (markerType.equalsIgnoreCase("home")) {
+        // If this is a home or tax marker, check if there's already one within 1 km.
+        if (markerType.equalsIgnoreCase("home") || markerType.equalsIgnoreCase("tax")) {
             for (double[] pos : homeMarkerPositions) {
                 double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
                 if (distance < 1.0) { // Skip adding if within 1 km
