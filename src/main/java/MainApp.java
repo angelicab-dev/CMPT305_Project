@@ -240,11 +240,11 @@ public class MainApp extends Application {
 
         TableColumn<PropertyAssessment, String> assessedValueCol = new TableColumn<>("Assessed Value");
         assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
-        assessedValueCol.setMinWidth(140);
+        assessedValueCol.setMinWidth(158);
 
         TableColumn<PropertyAssessment, String> addressCol = new TableColumn<>("Address");
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        addressCol.setMinWidth(183);
+        addressCol.setMinWidth(165);
 
         TableColumn<PropertyAssessment, String> neighbourhoodCol = new TableColumn<>("Neighbourhood");
         neighbourhoodCol.setCellValueFactory(new PropertyValueFactory<>("neighbourhood"));
@@ -259,18 +259,18 @@ public class MainApp extends Application {
         tabPane.setPrefWidth(500);
 
         // Columns for the Property Tax tab
-        TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Property Tax");
+        TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Property Tax (Estimate)");
         propertyTaxCol.setCellValueFactory(new PropertyValueFactory<>("propertyTax"));
-        propertyTaxCol.setMinWidth(160);
+        propertyTaxCol.setMinWidth(140);
 
         TableColumn<PropertyAssessment, Integer> assessedValueTaxTab = new TableColumn<>("Assessed Value");
         assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
-        assessedValueTaxTab.setMinWidth(160);
+        assessedValueTaxTab.setMinWidth(183);
 
 
         TableColumn<PropertyAssessment, String> addressTaxTab = new TableColumn<>("Address");
         addressTaxTab.setCellValueFactory(new PropertyValueFactory<>("address"));
-        addressTaxTab.setMinWidth(160);
+        addressTaxTab.setMinWidth(183);
 
         propertyTaxTable.getColumns().addAll(propertyTaxCol, assessedValueTaxTab, addressTaxTab);
 
@@ -309,7 +309,7 @@ public class MainApp extends Application {
 
         TableColumn<Attraction, String> attractionNameCol = new TableColumn<>("Name");
         attractionNameCol.setCellValueFactory(new PropertyValueFactory<>("facilityName"));
-        attractionNameCol.setPrefWidth(183);
+        attractionNameCol.setPrefWidth(140);
 
         TableColumn<Attraction, String> attractionTypeCol = new TableColumn<>("Type");
         attractionTypeCol.setCellValueFactory(new PropertyValueFactory<>("attractionType"));
