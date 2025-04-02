@@ -176,18 +176,23 @@ public class PropertyAssessments {
         int size = values.size();
         return (size % 2 == 1) ? values.get(size / 2) : (values.get(size / 2) + values.get(size / 2 - 1)) / 2;
     }
-    /*
-    public int calculatePropertyTax(){
 
-        List<PropertyTax> values = new ArrayList<>();
+    public List<Integer> calculatePropertyTax(){
+
+        List<Integer> values = new ArrayList<>();
         for (PropertyAssessment property : assessments) {
-            PropertyTax assessedValueTax = new PropertyTax(property.getAssessedValue());
-            values.add(assessedValueTax);
+            //property.propertyTax();
+            //PropertyTax assessedValueTax = new PropertyTax(property.getAssessedValue());
+            values.add(property.propertyTax());
         }
+
+        values.stream()
+                .sorted();
+        return values;
 
     }
 
-     */
+
 
     /**
      * Gets the max and min values from assessed value and minuses them to get the range.

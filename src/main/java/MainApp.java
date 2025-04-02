@@ -265,8 +265,8 @@ public class MainApp extends Application {
         assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
         assessedValueTaxTab.setMinWidth(160);
 
-        TableColumn<PropertyAssessment, String> propertyTaxCol = new TableColumn<>("Property Tax");
-        //assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
+        TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Property Tax");
+        assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("propertyTax"));
         propertyTaxCol.setMinWidth(160);
 
         TableColumn<PropertyAssessment, String> addressTaxTab = new TableColumn<>("Address");
@@ -382,7 +382,7 @@ public class MainApp extends Application {
                         }
                     }
 
-                    //sort filteredProperties by ascending order
+                    //sort filteredProperties in ascending order
                     filteredProperties = filteredProperties.stream()
                             .sorted(Comparator.comparing(PropertyAssessment::getAssessedValue))
                             .collect(Collectors.toCollection(FXCollections::observableArrayList));
@@ -459,6 +459,9 @@ public class MainApp extends Application {
 
                     PropertyAssessments residentialOnlyTax = propertyAssessments.filterByAssessmentClass("Residential");
 
+                    //residentialOnlyTax.calculatePropertyTax();
+
+
                     // Determine min and max values from the text fields
                     int minValue = tfMinTax.getText().isEmpty()
                             ? residentialOnlyTax.calculateMinAssessedValue()
@@ -467,8 +470,13 @@ public class MainApp extends Application {
                             ? residentialOnlyTax.calculateMaxAssessedValue()
                             : Integer.parseInt(tfMaxTax.getText().trim());
 
+
+                    //double
+
                     ObservableList<PropertyAssessment> filteredProperties = FXCollections.observableArrayList();
                     for (PropertyAssessment pa : residentialOnlyTax.getAssessments()) {
+                        //pa.propertyTax();
+
                         // Add this filter: if assessed value is less than 10,000, skip it.
                         if (pa.getAssessedValue() < 10000) {
                             continue;
@@ -477,7 +485,9 @@ public class MainApp extends Application {
                             continue;
                         }
                         if (pa.getAssessedValue() >= minValue && pa.getAssessedValue() <= maxValue) {
+                            //pa.propertyTax();
                             filteredProperties.add(pa);
+                            //pa.propertyTax();
                         }
                     }
                     //sort filteredProperties by ascending order
