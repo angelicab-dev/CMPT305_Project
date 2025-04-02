@@ -54,7 +54,7 @@ public class MainApp extends Application {
         leftPane.add(hbox, 0, 0, 2, 1);
 
         // Assessed Value with checkbox
-        CheckBox cbAssessedValue = new CheckBox("Assessed Value");
+        CheckBox cbAssessedValue = new CheckBox("Property Assessed Value");
         cbAssessedValue.setStyle(
                 "-fx-font-size: 14px; " +
                         "-fx-font-weight: bold; " +
@@ -88,13 +88,46 @@ public class MainApp extends Application {
         leftPane.add(lblMaxAssessed, 0, 3);
         leftPane.add(tfMaxAssessed, 1, 3);
 
+        // Property Tax with checkbox
+        CheckBox cbPropertyTax = new CheckBox("Property Tax");
+        cbPropertyTax.setStyle(
+                "-fx-font-size: 14px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-min-width: 25px; " +
+                        "-fx-min-height: 25px; "
+        );
+        cbPropertyTax.setTextFill(Color.DARKBLUE);
+        leftPane.add(cbPropertyTax, 0, 4, 2, 1);
+
+        Label lblMinTax = new Label("Min ($):");
+        lblMinTax.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+
+        TextField tfMinTax = new TextField();
+        tfMinTax.setPromptText("Min Tax Value");
+        leftPane.add(lblMinTax, 0, 5);
+        leftPane.add(tfMinTax, 1, 5);
+
+        Label lblMaxTax = new Label("Max ($):");
+        lblMaxTax.setStyle(
+                "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; "
+        );
+        TextField tfMaxTax = new TextField();
+        tfMaxTax.setPromptText("Max Tax Value");
+        leftPane.add(lblMaxTax, 0, 6);
+        leftPane.add(tfMaxTax, 1, 6);
+
+
         // Attractions with checkbox
         CheckBox cbAttractions = new CheckBox("Attractions");
         cbAttractions.setStyle(
                 "-fx-font-size: 14px; " + "-fx-font-weight: bold;" + "-fx-min-width: 25px;" + "-fx-min-height: 25px;" + "-fx-padding: 15px 0px 0px 0px;"
         );
         cbAttractions.setTextFill(Color.DARKBLUE);
-        leftPane.add(cbAttractions, 0, 4, 2, 1);
+        leftPane.add(cbAttractions, 0, 7, 2, 1);
 
         // Attractions Address and Radius
         Label lblAttrAddress = new Label("Address:");
@@ -105,8 +138,8 @@ public class MainApp extends Application {
 
         TextField tfAttrAddress = new TextField();
         tfAttrAddress.setPromptText("Home Address");
-        leftPane.add(lblAttrAddress, 0, 5);
-        leftPane.add(tfAttrAddress, 1, 5);
+        leftPane.add(lblAttrAddress, 0, 8);
+        leftPane.add(tfAttrAddress, 1, 8);
 
         Label lblAttrRadius = new Label("Radius (km):");
         lblAttrRadius.setStyle(
@@ -121,40 +154,9 @@ public class MainApp extends Application {
         sldAttrRadius.setMajorTickUnit(2);
         sldAttrRadius.setShowTickLabels(true);
         sldAttrRadius.setShowTickMarks(true);
-        leftPane.add(sldAttrRadius, 1, 6);
-        leftPane.add(lblAttrRadius, 0, 6);
+        leftPane.add(sldAttrRadius, 1, 9);
+        leftPane.add(lblAttrRadius, 0, 9);
 
-        // Property Tax with checkbox
-        CheckBox cbPropertyTax = new CheckBox("Property Tax");
-        cbPropertyTax.setStyle(
-                "-fx-font-size: 14px; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-min-width: 25px; " +
-                        "-fx-min-height: 25px; "
-        );
-        cbPropertyTax.setTextFill(Color.DARKBLUE);
-        leftPane.add(cbPropertyTax, 0, 7, 2, 1);
-
-        Label lblMinTax = new Label("Min ($):");
-        lblMinTax.setStyle(
-                "-fx-font-size: 12px; " +
-                        "-fx-font-weight: bold; "
-        );
-
-        TextField tfMinTax = new TextField();
-        tfMinTax.setPromptText("Min Tax Value");
-        leftPane.add(lblMinTax, 0, 8);
-        leftPane.add(tfMinTax, 1, 8);
-
-        Label lblMaxTax = new Label("Max ($):");
-        lblMaxTax.setStyle(
-                "-fx-font-size: 12px; " +
-                        "-fx-font-weight: bold; "
-        );
-        TextField tfMaxTax = new TextField();
-        tfMaxTax.setPromptText("Max Tax Value");
-        leftPane.add(lblMaxTax, 0, 9);
-        leftPane.add(tfMaxTax, 1, 9);
 
         // Schools with checkbox
         CheckBox cbSchools = new CheckBox("Schools");
@@ -261,11 +263,11 @@ public class MainApp extends Application {
         // Columns for the Property Tax tab
         TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Property Tax (Estimate)");
         propertyTaxCol.setCellValueFactory(new PropertyValueFactory<>("propertyTax"));
-        propertyTaxCol.setMinWidth(140);
+        propertyTaxCol.setMinWidth(160);
 
         TableColumn<PropertyAssessment, Integer> assessedValueTaxTab = new TableColumn<>("Assessed Value");
         assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
-        assessedValueTaxTab.setMinWidth(183);
+        assessedValueTaxTab.setMinWidth(160);
 
 
         TableColumn<PropertyAssessment, String> addressTaxTab = new TableColumn<>("Address");
@@ -338,7 +340,7 @@ public class MainApp extends Application {
         Tab attractionsTab = new Tab("Attractions", attractionsTable);
         attractionsTab.setClosable(false);
 
-        tabPane.getTabs().addAll(homeTab,taxTab, schoolsTab, attractionsTab);
+        tabPane.getTabs().addAll(homeTab,taxTab, attractionsTab, schoolsTab);
         rightPane.getChildren().add(tabPane);
 
 
