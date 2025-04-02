@@ -451,6 +451,7 @@ public class MainApp extends Application {
                 }
             }
 
+            // If Property Tax checkbox is selecte
             if(cbPropertyTax.isSelected()) {
                 try{
                     //PropertyAssessments propertyAssessments = new PropertyAssessments();
@@ -503,7 +504,6 @@ public class MainApp extends Application {
                 }
 
             }
-
 
 
             // If "Schools" is checked, load the school data
