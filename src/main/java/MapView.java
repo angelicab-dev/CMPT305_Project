@@ -15,6 +15,8 @@ public class MapView extends Pane {
 
     // List to keep track of home markers' positions (latitude and longitude).
     private List<double[]> homeMarkerPositions = new ArrayList<>();
+    // List to keep track of tax markers' positions (latitude and longitude).
+    private List<double[]> taxMarkerPositions = new ArrayList<>();
 
     public MapView() {
         // Load Edmonton Map
@@ -26,17 +28,30 @@ public class MapView extends Pane {
     }
 
     public void addMarker(double latitude, double longitude, String markerType) {
-        // If this is a home or tax marker, check if there's already one within 1 km.
-        if (markerType.equalsIgnoreCase("home") || markerType.equalsIgnoreCase("tax")) {
+        // If this is a home marker, check if there's already one within 1 km.
+        if (markerType.equalsIgnoreCase("home")) {
             for (double[] pos : homeMarkerPositions) {
                 double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
-                if (distance < 1.0) { // Skip adding if within 1 km
+                if (distance < 2.0) { // Skip adding if within 1 km
                     return;
                 }
             }
             // No marker is within 1 km, so add this marker's position.
             homeMarkerPositions.add(new double[] { latitude, longitude });
         }
+
+        if (markerType.equalsIgnoreCase("tax")) {
+            // Check if the tax marker is within 1 km of any home marker.
+            for (double[] pos : taxMarkerPositions) {
+                double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
+                if (distance < 2.0) { // Skip adding if within 1 km
+                    return;
+                }
+            }
+            // No home marker is within 1 km, so add this marker's position.
+            taxMarkerPositions.add(new double[] { latitude, longitude });
+        }
+
 
         double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
         double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
@@ -85,5 +100,6 @@ public class MapView extends Pane {
     public void clearMarkers() {
         this.getChildren().removeIf(node -> node != mapImageView);
         homeMarkerPositions.clear();
+        taxMarkerPositions.clear();
     }
 }
