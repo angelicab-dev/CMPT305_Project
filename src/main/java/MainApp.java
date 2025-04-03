@@ -453,7 +453,7 @@ public class MainApp extends Application {
                 }
             }
 
-            // If Property Tax checkbox is selecte
+            // If Property Tax checkbox is selected
             if(cbPropertyTax.isSelected()) {
                 try{
                     //PropertyAssessments propertyAssessments = new PropertyAssessments();

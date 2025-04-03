@@ -56,6 +56,8 @@ class AttractionsTest {
 
     @Test
     void filterByAttractionType() {
+
+
         Attractions filtered = dummyAttractions.filterByAttractionType("Arena");
         assertEquals(2, filtered.getTotalAttractions());
 

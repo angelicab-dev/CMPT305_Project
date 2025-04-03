@@ -96,20 +96,6 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         return propertyTax;
     }
 
-    /*
-    public int propertyTax(){
-        PropertyTaxes assessedValueTax = new PropertyTaxes(this.assessedValue);
-        //this.propertyTax = (int) assessedValueTax.calculatePropertyTax();
-        this.propertyTax = (int) assessedValueTax.calculatePropertyTax();
-        return this.propertyTax;
-    }
-
-    public int getPropertyTax() {
-        return propertyTax;
-    }
-
-     */
-
 
 
 

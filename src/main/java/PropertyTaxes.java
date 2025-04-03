@@ -20,7 +20,8 @@ public class PropertyTaxes {
      */
 
     /*
-    Has the same structure as PropertyAssessments class instead it will have a list of property taxes
+    Has the same structure as PropertyAssessments class
+    - it has fewer methods
      */
 
     private List<PropertyAssessment> properties;
@@ -91,36 +92,6 @@ public class PropertyTaxes {
     public double calculateMaxPropertyTax() {
         return properties.stream().mapToInt(PropertyAssessment::getPropertyTax).max().orElse(0);
     }
-
-
-
-
-    /*
-    private int propertyValue;
-    private List<PropertyAssessment> propertyAssessments;
-
-    //private List<> modifiedAssessmentList;
-
-    public PropertyTaxes(List<PropertyAssessment> propertyAssessmentsList) {
-        this.propertyAssessments = propertyAssessmentsList;
-    }
-
-    public PropertyTaxes(int assessedPropertyValue) {
-        this.propertyValue = assessedPropertyValue;
-    }
-
-    public int getPropertyValue() {
-        return propertyValue;
-    }
-
-    public double calculatePropertyTax() {
-        double taxRate = 0.089;
-        return propertyValue * taxRate;
-    }
-
-     */
-
-
 
 
 

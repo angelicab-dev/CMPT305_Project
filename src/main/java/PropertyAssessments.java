@@ -177,23 +177,7 @@ public class PropertyAssessments {
         return (size % 2 == 1) ? values.get(size / 2) : (values.get(size / 2) + values.get(size / 2 - 1)) / 2;
     }
 
-    /*
-    public List<Integer> calculatePropertyTax(){
 
-        List<Integer> values = new ArrayList<>();
-        for (PropertyAssessment property : assessments) {
-            //property.propertyTax();
-            //PropertyTax assessedValueTax = new PropertyTax(property.getAssessedValue());
-            values.add(property.propertyTax());
-        }
-
-        values.stream()
-                .sorted();
-        return values;
-
-    }
-
-     */
 
 
 
