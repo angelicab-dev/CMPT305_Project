@@ -154,5 +154,7 @@ public class MapView extends Pane {
         this.getChildren().removeIf(node -> node != mapImageView);
         homeMarkerPositions.clear();
         taxMarkerPositions.clear();
+        legendOverlay();
+
     }
 }
