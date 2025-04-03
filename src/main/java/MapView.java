@@ -1,10 +1,21 @@
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
+import javafx.scene.control.*;
+
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +29,9 @@ public class MapView extends Pane {
     // List to keep track of tax markers' positions (latitude and longitude).
     private List<double[]> taxMarkerPositions = new ArrayList<>();
 
+    private VBox legend; // Legend box
+
+
     public MapView() {
         // Load Edmonton Map
         Image mapImage = new Image(getClass().getResource("/edmonton.png").toExternalForm());
@@ -25,7 +39,46 @@ public class MapView extends Pane {
         mapImageView.setFitWidth(700); // Set map width
         mapImageView.setFitHeight(750); // Set map height
         this.getChildren().add(mapImageView);
+
+        legendOverlay();
     }
+    private void legendOverlay() {
+        legend = new VBox(10);
+        legend.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); -fx-padding: 10; -fx-border-color: black; -fx-border-radius: 5;");
+        legend.setAlignment(Pos.TOP_LEFT);
+
+        // Add legend items with icons
+        Label legendLabel = new Label("LEGEND");
+        legendLabel.setStyle("-fx-font-weight: bold; ");
+
+        legend.getChildren().add(legendLabel);
+
+        legend.getChildren().add(createLegendItem("Home", FontAwesomeSolid.HOME, Color.RED));
+        legend.getChildren().add(createLegendItem("Tax", FontAwesomeSolid.DOLLAR_SIGN, Color.ORANGE));
+        legend.getChildren().add(createLegendItem("Attraction", FontAwesomeSolid.TREE, Color.GREEN));
+        legend.getChildren().add(createLegendItem("School", FontAwesomeSolid.SCHOOL, Color.BLUE));
+
+        // Position the legend in the top-left corner
+        legend.setLayoutX(10);
+        legend.setLayoutY(10);
+
+        this.getChildren().add(legend);
+    }
+
+    private HBox createLegendItem(String name, FontAwesomeSolid iconType, Color color) {
+        FontIcon icon = new FontIcon(iconType);
+        icon.setIconColor(color);
+        icon.setIconSize(16);
+
+        Label label = new Label(name);
+        HBox item = new HBox(10, icon, label);
+        item.setAlignment(Pos.CENTER_LEFT);
+
+        return item;
+    }
+
+
+
 
     public void addMarker(double latitude, double longitude, String markerType) {
         // If this is a home marker, check if there's already one within 1 km.
