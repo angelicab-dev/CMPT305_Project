@@ -10,6 +10,10 @@ class MapViewTest {
 
     private MapView mapPane;
 
+    PropertyAssessment property;
+    Attraction attraction;
+    School school;
+
     // Initialize JavaFX
     @BeforeAll
     static void initJavaFX() {
@@ -35,11 +39,11 @@ class MapViewTest {
     void doesNotAddHomeMarkerWithinOneKm() {
         int initialSize = mapPane.getChildren().size();
 
-        mapPane.addMarker(53.5, -113.5, "home");
+        mapPane.addMarkerHome(53.5, -113.5, "home", property);
         assertEquals(initialSize + 1, mapPane.getChildren().size());
 
         // Attempt to add home marker within 1 km
-        mapPane.addMarker(53.5005, -113.5005, "home");
+        mapPane.addMarkerHome(53.5005, -113.5005, "home", property);
 
         // Should not add if within 1km
         assertEquals(initialSize + 1, mapPane.getChildren().size());
@@ -49,22 +53,22 @@ class MapViewTest {
     void addsMarkerType() {
         int initialSize = mapPane.getChildren().size();
 
-        mapPane.addMarker(53.5, -113.5, "school");
+        mapPane.addMarkerSchool(53.5, -113.5, "school", school);
         assertEquals(initialSize + 1, mapPane.getChildren().size());
 
-        mapPane.addMarker(53.6, -113.6, "attraction");
+        mapPane.addMarkerAttraction(53.6, -113.6, "attraction", attraction);
         assertEquals(initialSize + 2, mapPane.getChildren().size());
 
-        mapPane.addMarker(53.7, -113.7, "unknownType");
+        mapPane.addMarkerHome(53.7, -113.7, "unknownType", property);
         assertEquals(initialSize + 3, mapPane.getChildren().size());
     }
 
 
     @Test
     void clearMarkers() {
-        mapPane.addMarker(53.5, -113.5, "home");
-        mapPane.addMarker(53.6, -113.6, "school");
-        mapPane.addMarker(53.4, -113.4, "attraction");
+        mapPane.addMarkerHome(53.5, -113.5, "home", property);
+        mapPane.addMarkerSchool(53.6, -113.6, "school", school);
+        mapPane.addMarkerAttraction(53.4, -113.4, "attraction", attraction);
 
         // Check if markers have been added
         assertTrue(mapPane.getChildren().size() > 1);

@@ -28,7 +28,7 @@ public class Attraction {
     }
 
     public String getAttractionAddress() {
-        return attractionAddress;
+        return this.attractionAddress;
     }
 
     public String getAttractionQuadrant() {return attractionQuadrant;}
@@ -46,8 +46,8 @@ public class Attraction {
     @Override
     public String toString() {
         return "Facility: " + facilityName + "\n" +
-                "Address: " + attractionAddress + "\n" +
-                "Type:" + attractionType;
+                "Type:" + attractionType + "\n" +
+                "Address: " + attractionAddress;
     }
 
     @Override

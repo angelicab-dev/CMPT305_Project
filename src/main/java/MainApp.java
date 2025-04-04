@@ -395,7 +395,7 @@ public class MainApp extends Application {
                     for (PropertyAssessment pa : filteredProperties) {
                         double lat = pa.getLocation().getLatitude();
                         double lon = pa.getLocation().getLongitude();
-                        mapPane.addMarker(lat, lon, "home");
+                        mapPane.addMarkerHome(lat, lon, "home", pa);
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -495,11 +495,8 @@ public class MainApp extends Application {
                     for (PropertyAssessment pa : taxFilteredProperties) {
                         double lat = pa.getLocation().getLatitude();
                         double lon = pa.getLocation().getLongitude();
-                        mapPane.addMarker(lat, lon, "tax");
+                        mapPane.addMarkerTax(lat, lon, "tax", pa);
                         }
-
-
-
                 }
                 catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -531,7 +528,8 @@ public class MainApp extends Application {
                                     ps.getPhoneNumber(),
                                     ps.getGradeLevel(),
                                     String.valueOf(ps.getLocation().getLatitude()),
-                                    String.valueOf(ps.getLocation().getLongitude())
+                                    String.valueOf(ps.getLocation().getLongitude()),
+                                    "Public"
                             );
                             schoolDataList.add(s);
                         }
@@ -554,7 +552,8 @@ public class MainApp extends Application {
                                     cs.getPhoneNumber(),
                                     cs.getGradeLevel(),
                                     String.valueOf(cs.getLocation().getLatitude()),
-                                    String.valueOf(cs.getLocation().getLongitude())
+                                    String.valueOf(cs.getLocation().getLongitude()),
+                                    "Catholic"
                             );
                             schoolDataList.add(s);
                         }
@@ -602,7 +601,7 @@ public class MainApp extends Application {
                 for (School s : schoolDataList) {
                     double lat = s.getLocation().getLatitude();
                     double lon = s.getLocation().getLongitude();
-                    mapPane.addMarker(lat, lon, "school");
+                    mapPane.addMarkerSchool(lat, lon, "school", s);
                 }
             }
         });

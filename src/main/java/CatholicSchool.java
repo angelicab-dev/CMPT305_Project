@@ -31,7 +31,9 @@ public class CatholicSchool {
         this.gradeLevel = gradeLevel;
         this.programs = programs;
         this.location = new Location(latitude, longitude);
+
     }
+
 
     /**
      * Returns the name of the school.

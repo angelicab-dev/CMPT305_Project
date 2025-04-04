@@ -8,6 +8,7 @@ public class School {
     private String phoneNumber;
     private String gradeLevel;
     private Location location;
+    private String schoolType;
 
     /**
      * Constructor to initialize a school object
@@ -21,14 +22,16 @@ public class School {
      * @param longitude   Longitude of the school's location
      */
     public School(String schoolName, String street, String postalCode,
-                  String phoneNumber, String gradeLevel, String latitude, String longitude) {
+                  String phoneNumber, String gradeLevel, String latitude, String longitude, String schoolType) {
         this.schoolName = schoolName;
         this.street = street;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
         this.gradeLevel = gradeLevel;
         this.location = new Location(latitude, longitude);
+        this.schoolType = schoolType;
     }
+
 
     /**
      * Returns the name of the school.
@@ -76,5 +79,13 @@ public class School {
      */
     public String getGradeLevel() {
         return gradeLevel;
+    }
+
+    /**
+     * Returns the school type (Catholic or Public)
+     * @return the school type
+     */
+    public String getSchoolType() {
+        return schoolType;
     }
 }

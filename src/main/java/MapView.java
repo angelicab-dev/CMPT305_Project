@@ -12,8 +12,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.awt.SystemColor.info;
-
 public class MapView extends Pane {
     private ImageView mapImageView;
     private final double minLon = -113.7312, maxLon = -113.2560;
@@ -34,6 +32,10 @@ public class MapView extends Pane {
         mapImageView.setFitWidth(700); // Set map width
         mapImageView.setFitHeight(750); // Set map height
         this.getChildren().add(mapImageView);
+
+
+        this.setClip(null);
+        this.setPickOnBounds(false);
 
         legendOverlay();
     }
@@ -72,10 +74,7 @@ public class MapView extends Pane {
         return item;
     }
 
-
-
-
-    public void addMarker(double latitude, double longitude, String markerType) {
+    public void addMarkerHome(double latitude, double longitude, String markerType, PropertyAssessment property) {
         // If this is a home marker, check if there's already one within 1 km.
         if (markerType.equalsIgnoreCase("home")) {
 
@@ -88,6 +87,55 @@ public class MapView extends Pane {
             // No marker is within 1 km, so add this marker's position.
             homeMarkerPositions.add(new double[] { latitude, longitude });
         }
+
+        double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
+        double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
+
+        FontIcon icon;
+        switch (markerType.toLowerCase()) {
+            case "home":
+                icon = new FontIcon(FontAwesomeSolid.HOME);
+                icon.setIconColor(Color.RED);
+                break;
+            default:
+                icon = new FontIcon(FontAwesomeSolid.MAP_PIN);
+                icon.setIconColor(Color.PURPLE);
+        }
+
+        icon.setIconSize(16);
+
+        // Apply an outline effect using DropShadow.
+        DropShadow outline = new DropShadow();
+        outline.setRadius(2.0);
+        outline.setSpread(0.7);
+        outline.setOffsetX(0);
+        outline.setOffsetY(0);
+        outline.setColor(Color.BLACK);
+        icon.setEffect(outline);
+
+        icon.setLayoutX(x - 8);
+        icon.setLayoutY(y + 8);
+        // Popup Label
+        Label popup = new Label("Assessed Value: $" + property.getAssessedValue() +
+                "\nAddress: " + property.getAddress()  +
+                "\nNeighbourhood: " + property.getNeighbourhood());
+
+        popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
+        popup.setVisible(false);
+        popup.setLayoutX(x + 10);
+        popup.setLayoutY(y - 10);
+
+        // Listener event set up for hovering on attraction icons on map
+        icon.setOnMouseEntered(event -> {
+            popup.setVisible(true);
+            popup.toFront();
+        });
+        icon.setOnMouseExited(event -> popup.setVisible(false));
+        this.getChildren().addAll(icon, popup);
+    }
+
+
+    public void addMarkerTax(double latitude, double longitude, String markerType, PropertyAssessment property) {
 
         if (markerType.equalsIgnoreCase("tax")) {
             // Check if the tax marker is within 1 km of any home marker.
@@ -107,14 +155,6 @@ public class MapView extends Pane {
 
         FontIcon icon;
         switch (markerType.toLowerCase()) {
-            case "home":
-                icon = new FontIcon(FontAwesomeSolid.HOME);
-                icon.setIconColor(Color.RED);
-                break;
-            case "school":
-                icon = new FontIcon(FontAwesomeSolid.SCHOOL);
-                icon.setIconColor(Color.BLUE);
-                break;
             case "tax":
                 icon = new FontIcon(FontAwesomeSolid.DOLLAR_SIGN);
                 icon.setIconColor(Color.ORANGE);
@@ -138,44 +178,26 @@ public class MapView extends Pane {
         icon.setLayoutX(x - 8);
         icon.setLayoutY(y + 8);
         // Popup Label
-        Label popup = new Label("Test");
+
+        Label popup = new Label("Property Tax (Estimate): $" + property.getPropertyTax()
+        + "\nAssessed Value: $" + property.getAssessedValue()
+                + "\nAddress: " + property.getAddress());
         popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
         popup.setVisible(false);
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);
 
-        // Show popup on marker click
-        icon.setOnMouseClicked(event -> popup.setVisible(!popup.isVisible()));
+        // Listener event set up for hovering on attraction icons on map
+        icon.setOnMouseEntered(event -> {
+            popup.setVisible(true);
+            popup.toFront();
+        });
+        icon.setOnMouseExited(event -> popup.setVisible(false));
         this.getChildren().addAll(icon, popup);
     }
 
 
     public void addMarkerAttraction(double latitude, double longitude, String markerType, Attraction place) {
-        // If this is a home marker, check if there's already one within 1 km.
-        if (markerType.equalsIgnoreCase("home")) {
-
-            for (double[] pos : homeMarkerPositions) {
-                double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
-                if (distance < 2.0) { // Skip adding if within 1 km
-                    return;
-                }
-            }
-            // No marker is within 1 km, so add this marker's position.
-            homeMarkerPositions.add(new double[] { latitude, longitude });
-        }
-
-        if (markerType.equalsIgnoreCase("tax")) {
-            // Check if the tax marker is within 1 km of any home marker.
-            for (double[] pos : taxMarkerPositions) {
-                double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
-                if (distance < 2.0) { // Skip adding if within 1 km
-                    return;
-                }
-            }
-            // No home marker is within 1 km, so add this marker's position.
-            taxMarkerPositions.add(new double[] { latitude, longitude });
-        }
-
 
         double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
         double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
@@ -207,15 +229,67 @@ public class MapView extends Pane {
         icon.setLayoutY(y + 8);
 
         // Popup Label
-        Label popup = new Label(place.getFacilityName());
+        Label popup = new Label(place.toString());
         popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
         popup.setVisible(false);
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);
 
         // Listener event set up for hovering on attraction icons on map
-        icon.setOnMouseEntered(event -> popup.setVisible(true));
-        icon.setOnMouseExited(event -> popup.setVisible(false));
+        icon.setOnMouseEntered(event -> {
+            popup.setVisible(true);
+            popup.toFront();
+        });        icon.setOnMouseExited(event -> popup.setVisible(false));
+        this.getChildren().addAll(icon, popup);
+    }
+
+
+    public void addMarkerSchool(double latitude, double longitude, String markerType, School school) {
+
+        double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
+        double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
+
+        FontIcon icon;
+        switch (markerType.toLowerCase()) {
+
+            case "school":
+                icon = new FontIcon(FontAwesomeSolid.SCHOOL);
+                icon.setIconColor(Color.BLUE);
+                break;
+            default:
+                icon = new FontIcon(FontAwesomeSolid.MAP_PIN);
+                icon.setIconColor(Color.PURPLE);
+        }
+
+        icon.setIconSize(16);
+
+        // Apply an outline effect using DropShadow.
+        DropShadow outline = new DropShadow();
+        outline.setRadius(2.0);
+        outline.setSpread(0.7);
+        outline.setOffsetX(0);
+        outline.setOffsetY(0);
+        outline.setColor(Color.BLACK);
+        icon.setEffect(outline);
+
+        icon.setLayoutX(x - 8);
+        icon.setLayoutY(y + 8);
+
+        // Popup Label
+        Label popup = new Label("Name: " + school.getSchoolName()
+                + "\nGrade Level: " +school.getGradeLevel()
+                + "\nType: "+ school.getSchoolType()
+            + "\nAddress: " + school.getStreet());
+        popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
+        popup.setVisible(false);
+        popup.setLayoutX(x + 10);
+        popup.setLayoutY(y - 10);
+
+        // Listener event set up for hovering on attraction icons on map
+        icon.setOnMouseEntered(event -> {
+            popup.setVisible(true);
+            popup.toFront();
+        });        icon.setOnMouseExited(event -> popup.setVisible(false));
         this.getChildren().addAll(icon, popup);
     }
 
