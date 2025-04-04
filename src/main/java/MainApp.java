@@ -446,7 +446,7 @@ public class MainApp extends Application {
                     for (Attraction attraction : attractionsList) {
                         double lat = attraction.getAttractionLocation().getLatitude();
                         double lon = attraction.getAttractionLocation().getLongitude();
-                        mapPane.addMarker(lat, lon, "attraction");
+                        mapPane.addMarkerAttraction(lat, lon, "attraction", attraction);
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
