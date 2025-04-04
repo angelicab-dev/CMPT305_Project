@@ -6,5 +6,5 @@ Kamil Malkowski
 Angelica Billiones  
 Jheaney Perico
 ### Technologies Used
-- Java
-- JavaFX
+- Java (OpenJDK 23)
+- JavaFX (17.0.2)
