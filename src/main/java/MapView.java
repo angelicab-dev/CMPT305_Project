@@ -115,12 +115,18 @@ public class MapView extends Pane {
 
         icon.setLayoutX(x - 8);
         icon.setLayoutY(y + 8);
+
         // Popup Label
         Label popup = new Label("Assessed Value: $" + property.getAssessedValue() +
                 "\nAddress: " + property.getAddress()  +
                 "\nNeighbourhood: " + property.getNeighbourhood());
 
-        popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
+        popup.setStyle("    -fx-background-color: white;\n" +
+                "    -fx-border-color: black;\n" +
+                "    -fx-border-radius: 10px;\n" +
+                "    -fx-background-radius: 10px;\n" +
+                "    -fx-padding: 8px;");
+        popup.setTextFill(Color.RED);
         popup.setVisible(false);
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);
@@ -182,7 +188,13 @@ public class MapView extends Pane {
         Label popup = new Label("Property Tax (Estimate): $" + property.getPropertyTax()
         + "\nAssessed Value: $" + property.getAssessedValue()
                 + "\nAddress: " + property.getAddress());
-        popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
+        popup.setStyle("    -fx-background-color: white;\n" +
+                "    -fx-border-color: black;\n" +
+                "    -fx-border-radius: 10px;\n" +
+                "    -fx-background-radius: 10px;\n" +
+                "    -fx-padding: 8px;");
+        popup.setTextFill(Color.DARKORANGE);
+
         popup.setVisible(false);
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);
@@ -230,7 +242,13 @@ public class MapView extends Pane {
 
         // Popup Label
         Label popup = new Label(place.toString());
-        popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
+        popup.setStyle("    -fx-background-color: white;\n" +
+                "    -fx-border-color: black;\n" +
+                "    -fx-border-radius: 10px;\n" +
+                "    -fx-background-radius: 10px;\n" +
+                "    -fx-padding: 8px;");
+        popup.setTextFill(Color.GREEN);
+
         popup.setVisible(false);
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);
@@ -280,7 +298,13 @@ public class MapView extends Pane {
                 + "\nGrade Level: " +school.getGradeLevel()
                 + "\nType: "+ school.getSchoolType()
             + "\nAddress: " + school.getStreet());
-        popup.setStyle("-fx-background-color: white; -fx-padding: 5px; -fx-border-color: black;");
+        popup.setStyle("    -fx-background-color: white;\n" +
+                "    -fx-border-color: black;\n" +
+                "    -fx-border-radius: 10px;\n" +
+                "    -fx-background-radius: 10px;\n" +
+                "    -fx-padding: 8px;");
+        popup.setTextFill(Color.BLUE);
+
         popup.setVisible(false);
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);

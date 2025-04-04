@@ -46,7 +46,7 @@ public class Attraction {
     @Override
     public String toString() {
         return "Facility: " + facilityName + "\n" +
-                "Type:" + attractionType + "\n" +
+                "Type: " + attractionType + "\n" +
                 "Address: " + attractionAddress;
     }
 
