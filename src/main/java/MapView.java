@@ -131,11 +131,27 @@ public class MapView extends Pane {
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);
 
-        // Listener event set up for hovering on attraction icons on map
         icon.setOnMouseEntered(event -> {
+            double iconX = icon.getLayoutX();
+            double iconY = icon.getLayoutY();
+            double popupWidth = popup.prefWidth(-1); // Calculates preferred width
+
+            // Check if popup would overflow the right edge of the pane
+            if (iconX + 10 + popupWidth > this.getWidth()) {
+                // Show popup to the left of the marker
+                popup.setLayoutX(iconX - popupWidth - 10);
+            } else {
+                // Default: show popup to the right of the marker
+                popup.setLayoutX(iconX + 10);
+            }
+
+            popup.setLayoutY(iconY - 10); // Keep Y positioning consistent
             popup.setVisible(true);
             popup.toFront();
         });
+
+
+
         icon.setOnMouseExited(event -> popup.setVisible(false));
         this.getChildren().addAll(icon, popup);
     }
@@ -200,9 +216,24 @@ public class MapView extends Pane {
 
         // Listener event set up for hovering on attraction icons on map
         icon.setOnMouseEntered(event -> {
+            double iconX = icon.getLayoutX();
+            double iconY = icon.getLayoutY();
+            double popupWidth = popup.prefWidth(-1); // Calculates preferred width
+
+            // Check if popup would overflow the right edge of the pane
+            if (iconX + 10 + popupWidth > this.getWidth()) {
+                // Show popup to the left of the marker
+                popup.setLayoutX(iconX - popupWidth - 10);
+            } else {
+                // Default: show popup to the right of the marker
+                popup.setLayoutX(iconX + 10);
+            }
+
+            popup.setLayoutY(iconY - 10); // Keep Y positioning consistent
             popup.setVisible(true);
             popup.toFront();
         });
+
         icon.setOnMouseExited(event -> popup.setVisible(false));
         this.getChildren().addAll(icon, popup);
     }
@@ -254,9 +285,26 @@ public class MapView extends Pane {
 
         // Listener event set up for hovering on attraction icons on map
         icon.setOnMouseEntered(event -> {
+            double iconX = icon.getLayoutX();
+            double iconY = icon.getLayoutY();
+            double popupWidth = popup.prefWidth(-1); // Calculates preferred width
+
+            // Check if popup would overflow the right edge of the pane
+            if (iconX + 10 + popupWidth > this.getWidth()) {
+                // Show popup to the left of the marker
+                popup.setLayoutX(iconX - popupWidth - 10);
+            } else {
+                // Default: show popup to the right of the marker
+                popup.setLayoutX(iconX + 10);
+            }
+
+            popup.setLayoutY(iconY - 10); // Keep Y positioning consistent
             popup.setVisible(true);
             popup.toFront();
-        });        icon.setOnMouseExited(event -> popup.setVisible(false));
+        });
+
+
+        icon.setOnMouseExited(event -> popup.setVisible(false));
         this.getChildren().addAll(icon, popup);
     }
 
@@ -310,9 +358,25 @@ public class MapView extends Pane {
 
         // Listener event set up for hovering on attraction icons on map
         icon.setOnMouseEntered(event -> {
+            double iconX = icon.getLayoutX();
+            double iconY = icon.getLayoutY();
+            double popupWidth = popup.prefWidth(-1); // Calculates preferred width
+
+            // Check if popup would overflow the right edge of the pane
+            if (iconX + 10 + popupWidth > this.getWidth()) {
+                // Show popup to the left of the marker
+                popup.setLayoutX(iconX - popupWidth - 10);
+            } else {
+                // Default: show popup to the right of the marker
+                popup.setLayoutX(iconX + 10);
+            }
+
+            popup.setLayoutY(iconY - 10); // Keep Y positioning consistent
             popup.setVisible(true);
             popup.toFront();
-        });        icon.setOnMouseExited(event -> popup.setVisible(false));
+        });
+
+        icon.setOnMouseExited(event -> popup.setVisible(false));
         this.getChildren().addAll(icon, popup);
     }
 
