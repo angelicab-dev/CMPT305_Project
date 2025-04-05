@@ -61,6 +61,7 @@ public class PropertyAssessments {
                     String longitude = values[10];
                     List<AssessmentClass> assessmentClasses = AssessmentClass.parseAssessmentClasses(values);
 
+                    addPropertyAssessment(new PropertyAssessment(accountNumber, assessedValue, suite, houseNumber, street, neighbourhood, ward, latitude, longitude, assessmentClasses));
                 }
             }
         }
