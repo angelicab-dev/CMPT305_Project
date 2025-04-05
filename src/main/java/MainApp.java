@@ -238,19 +238,19 @@ public class MainApp extends Application {
         // Home Table using PropertyAssessment objects
         TableView<PropertyAssessment> homesTable = new TableView<>();
         tabPane.setPrefHeight(800);
-        tabPane.setPrefWidth(500);
+        tabPane.setPrefWidth(400);
 
         TableColumn<PropertyAssessment, String> assessedValueCol = new TableColumn<>("Assessed Value");
         assessedValueCol.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
-        assessedValueCol.setMinWidth(158);
+        assessedValueCol.setMinWidth(95);
 
         TableColumn<PropertyAssessment, String> addressCol = new TableColumn<>("Address");
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        addressCol.setMinWidth(165);
+        addressCol.setMinWidth(171);
 
         TableColumn<PropertyAssessment, String> neighbourhoodCol = new TableColumn<>("Neighbourhood");
         neighbourhoodCol.setCellValueFactory(new PropertyValueFactory<>("neighbourhood"));
-        neighbourhoodCol.setMinWidth(183);
+        neighbourhoodCol.setMinWidth(133);
 
         homesTable.getColumns().addAll(assessedValueCol, addressCol, neighbourhoodCol);
 
@@ -258,21 +258,21 @@ public class MainApp extends Application {
         // Table view initializes a table for property tab
         TableView<PropertyAssessment> propertyTaxTable = new TableView<>();
         tabPane.setPrefHeight(800);
-        tabPane.setPrefWidth(500);
+        tabPane.setPrefWidth(400);
 
         // Columns for the Property Tax tab
-        TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Property Tax (Estimate)");
+        TableColumn<PropertyAssessment, Integer> propertyTaxCol = new TableColumn<>("Tax");
         propertyTaxCol.setCellValueFactory(new PropertyValueFactory<>("propertyTax"));
-        propertyTaxCol.setMinWidth(160);
+        propertyTaxCol.setMinWidth(90);
 
         TableColumn<PropertyAssessment, Integer> assessedValueTaxTab = new TableColumn<>("Assessed Value");
         assessedValueTaxTab.setCellValueFactory(new PropertyValueFactory<>("assessedValue"));
-        assessedValueTaxTab.setMinWidth(160);
+        assessedValueTaxTab.setMinWidth(95);
 
 
         TableColumn<PropertyAssessment, String> addressTaxTab = new TableColumn<>("Address");
         addressTaxTab.setCellValueFactory(new PropertyValueFactory<>("address"));
-        addressTaxTab.setMinWidth(183);
+        addressTaxTab.setMinWidth(215);
 
         propertyTaxTable.getColumns().addAll(propertyTaxCol, assessedValueTaxTab, addressTaxTab);
 
@@ -280,7 +280,7 @@ public class MainApp extends Application {
         // Schools Table using School objects
         TableView<School> schoolsTable = new TableView<>();
         schoolsTable.setPrefHeight(200);
-        schoolsTable.setPrefWidth(550);
+        schoolsTable.setPrefWidth(400);
 
         TableColumn<School, String> schoolNameCol = new TableColumn<>("School Name");
         schoolNameCol.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
@@ -288,26 +288,18 @@ public class MainApp extends Application {
 
         TableColumn<School, String> streetCol = new TableColumn<>("Address");
         streetCol.setCellValueFactory(new PropertyValueFactory<>("street"));
-        streetCol.setPrefWidth(121);
-
-        TableColumn<School, String> postalCodeCol = new TableColumn<>("Postal Code");
-        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        postalCodeCol.setPrefWidth(75);
-
-        TableColumn<School, String> phoneNumberCol = new TableColumn<>("Phone Number");
-        phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        phoneNumberCol.setPrefWidth(90);
+        streetCol.setPrefWidth(138);
 
         TableColumn<School, String> gradeLevelCol = new TableColumn<>("Grade Level(s)");
         gradeLevelCol.setCellValueFactory(new PropertyValueFactory<>("gradeLevel"));
         gradeLevelCol.setPrefWidth(131);
 
-        schoolsTable.getColumns().addAll(schoolNameCol, streetCol, postalCodeCol, phoneNumberCol, gradeLevelCol);
+        schoolsTable.getColumns().addAll(schoolNameCol, streetCol, gradeLevelCol);
 
         // Attraction Table using Attraction objects
         TableView<Attraction> attractionsTable = new TableView<>();
         attractionsTable.setPrefHeight(200);
-        attractionsTable.setPrefWidth(550);
+        attractionsTable.setPrefWidth(400);
 
         TableColumn<Attraction, String> attractionNameCol = new TableColumn<>("Name");
         attractionNameCol.setCellValueFactory(new PropertyValueFactory<>("facilityName"));
@@ -315,11 +307,11 @@ public class MainApp extends Application {
 
         TableColumn<Attraction, String> attractionTypeCol = new TableColumn<>("Type");
         attractionTypeCol.setCellValueFactory(new PropertyValueFactory<>("attractionType"));
-        attractionTypeCol.setPrefWidth(183);
+        attractionTypeCol.setPrefWidth(110);
 
         TableColumn<Attraction, String> attractionAddressCol = new TableColumn<>("Address");
         attractionAddressCol.setCellValueFactory(new PropertyValueFactory<>("attractionAddress"));
-        attractionAddressCol.setPrefWidth(183);
+        attractionAddressCol.setPrefWidth(150);
 
         attractionsTable.getColumns().addAll(attractionNameCol, attractionTypeCol, attractionAddressCol);
 
@@ -328,7 +320,7 @@ public class MainApp extends Application {
         homeTab.setClosable(false);
 
         // Create Property Tax Tab
-        Tab taxTab = new Tab("Property Tax", propertyTaxTable);
+        Tab taxTab = new Tab("Property Tax (Estimate)", propertyTaxTable);
         taxTab.setClosable(false);
 
 
@@ -608,7 +600,7 @@ public class MainApp extends Application {
             }
         });
 
-        Scene scene = new Scene(root,1500, 750);
+        Scene scene = new Scene(root,1400, 720);
         primaryStage.setTitle("Home Finder");
 
         primaryStage.setScene(scene);
