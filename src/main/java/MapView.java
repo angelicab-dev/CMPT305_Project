@@ -194,7 +194,6 @@ public class MapView extends Pane {
                 "    -fx-background-radius: 10px;\n" +
                 "    -fx-padding: 8px;");
         popup.setTextFill(Color.DARKORANGE);
-
         popup.setVisible(false);
         popup.setLayoutX(x + 10);
         popup.setLayoutY(y - 10);

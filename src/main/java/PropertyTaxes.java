@@ -1,9 +1,13 @@
+import javafx.collections.FXCollections;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PropertyTaxes {
 
@@ -17,9 +21,7 @@ public class PropertyTaxes {
     Property tax calculation:
     your property assessed value * municipal tax rate = your municipal property taxes
     - municipal tax rate (2024) = 8.9%
-     */
 
-    /*
     Has the same structure as PropertyAssessments class
     - it has fewer methods
      */
@@ -31,9 +33,13 @@ public class PropertyTaxes {
         readData();
 
     }
+    public int getTotalRecords() {
+        return properties.size();
+    }
+
 
     public PropertyTaxes(List<PropertyAssessment> properties) {
-        this.properties = properties;
+        this.properties = new ArrayList<>(properties);
     }
 
     public List<PropertyAssessment> getAssessments() {
@@ -85,11 +91,11 @@ public class PropertyTaxes {
         return new PropertyTaxes(filteredList);
     }
 
-    public double calculateMinPropertyTax() {
+    public int calculateMinPropertyTax() {
         return properties.stream().mapToInt(PropertyAssessment::getPropertyTax).min().orElse(0);
     }
 
-    public double calculateMaxPropertyTax() {
+    public int calculateMaxPropertyTax() {
         return properties.stream().mapToInt(PropertyAssessment::getPropertyTax).max().orElse(0);
     }
 

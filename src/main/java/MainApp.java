@@ -347,6 +347,7 @@ public class MainApp extends Application {
         root.setLeft(leftPane);
         root.setCenter(centerPane);
         root.setRight(rightPane);
+
         // Search Button Event Handler
         btnSearch.setOnAction(e -> {
             // Clear the map markers at the start of each search so they don't overlap.
@@ -397,6 +398,7 @@ public class MainApp extends Application {
                         double lon = pa.getLocation().getLongitude();
                         mapPane.addMarkerHome(lat, lon, "home", pa);
                     }
+
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -463,10 +465,10 @@ public class MainApp extends Application {
 
                     // Determine min and max values from the text fields for Property tax
                     int minValue = tfMinTax.getText().isEmpty()
-                            ? (int) residentialOnlyTax.calculateMinPropertyTax()
+                            ? residentialOnlyTax.calculateMinPropertyTax()
                             : Integer.parseInt(tfMinTax.getText().trim());
                     int maxValue = tfMaxTax.getText().isEmpty()
-                            ? (int) residentialOnlyTax.calculateMaxPropertyTax()
+                            ? residentialOnlyTax.calculateMaxPropertyTax()
                             : Integer.parseInt(tfMaxTax.getText().trim());
 
 
