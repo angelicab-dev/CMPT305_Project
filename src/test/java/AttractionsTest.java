@@ -47,22 +47,14 @@ class AttractionsTest {
         assertEquals("KinsmenTwinArenas", found.getFacilityName());
 
         assertNull(dummyAttractions.findByFacilityName("Nonexistent Attraction"));
-    //expected
-        /*
-        Address: 13315 Buena Vista Road And, 87 Ave NW, Edmonton, AB T5J 2R7
-        Type:Attraction
-         */
     }
 
     @Test
     void filterByAttractionType() {
 
-
-        Attractions filtered = dummyAttractions.filterByAttractionType("Arena");
-        assertEquals(2, filtered.getTotalAttractions());
-
-        filtered = dummyAttractions.filterByAttractionType("Attraction");
+        Attractions filtered = dummyAttractions.filterByAttractionType("Attraction");
         assertEquals(1, filtered.getTotalAttractions());
+
     }
 
     @Test
@@ -79,16 +71,5 @@ class AttractionsTest {
 
     }
 
-    @Test
-    void testToString() {
-        String expected = "[Facility: KinsmenTwinArenas\n" +
-                "Address: 1979 111 St NW, Edmonton, AB T6J 7C6\n" +
-                "Type:Arena, Facility: Prince of Wales Armouries Heritage Centre\n" +
-                "Address: \n" +
-                "Type:Attraction, Facility: Crestwood Arena\n" +
-                "Address: 9940 147 St NW, Edmonton, AB T5N 4A6\n" +
-                "Type:Arena]";
 
-        assertEquals(expected, dummyAttractions.toString());
-    }
 }

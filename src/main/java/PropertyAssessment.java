@@ -97,9 +97,6 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     }
 
 
-
-
-
     /**
      * Compares assessed values of one property with another.
      * @param other the object to be compared.

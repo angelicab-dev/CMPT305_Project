@@ -20,7 +20,7 @@ public class Attractions {
 
     public Attractions() throws IOException {
 
-        this.attractions = new ArrayList<>();
+        attractions = new ArrayList<>();
         readData();
     }
 
@@ -68,6 +68,7 @@ public class Attractions {
     }
 
     public int getTotalAttractions() {
+
         return attractions.size();
     }
 
@@ -95,15 +96,6 @@ public class Attractions {
     public static List<Attraction> getAttractions() {
         return attractions;
     }
-
-
-
-
-    @Override
-    public String toString() {
-        return Arrays.toString(attractions.toArray());
-    }
-
 
 
 

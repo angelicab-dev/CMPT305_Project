@@ -322,6 +322,5 @@ public class MapView extends Pane {
         homeMarkerPositions.clear();
         taxMarkerPositions.clear();
         legendOverlay();
-
     }
 }

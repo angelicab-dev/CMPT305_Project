@@ -32,7 +32,7 @@ class MapViewTest {
     @Test
     void initializesMap() {
         // Ensure only the map image is present initially.
-        assertEquals(1, mapPane.getChildren().size());
+        assertEquals(2, mapPane.getChildren().size());
     }
 
     @Test

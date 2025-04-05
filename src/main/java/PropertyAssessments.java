@@ -178,9 +178,6 @@ public class PropertyAssessments {
     }
 
 
-
-
-
     /**
      * Gets the max and min values from assessed value and minuses them to get the range.
      * @return Range of assessed value.
