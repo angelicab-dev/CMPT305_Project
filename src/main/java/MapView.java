@@ -102,16 +102,16 @@ public class MapView extends Pane {
      * @param property the property assessment object associated with the marker.
      */
     public void addMarkerHome(double latitude, double longitude, String markerType, PropertyAssessment property) {
-        // If this is a home marker, check if there's already one within 2 km.
+        // If this is a home marker, check if there's already one within 1.5 km.
         if (markerType.equalsIgnoreCase("home")) {
 
             for (double[] pos : homeMarkerPositions) {
                 double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
-                if (distance < 2.0) { // Skip adding if within 2 km
+                if (distance < 1.5) { // Skip adding if within 1.5 km
                     return;
                 }
             }
-            // No marker is within 2 km, so add this marker's position.
+            // No marker is within 1.5 km, so add this marker's position.
             homeMarkerPositions.add(new double[] { latitude, longitude });
         }
 
@@ -195,14 +195,14 @@ public class MapView extends Pane {
     public void addMarkerTax(double latitude, double longitude, String markerType, PropertyAssessment property) {
 
         if (markerType.equalsIgnoreCase("tax")) {
-            // Check if the tax marker is within 2 km of any home marker.
+            // Check if the tax marker is within 1.5 km of any home marker.
             for (double[] pos : taxMarkerPositions) {
                 double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
-                if (distance < 2.0) { // Skip adding if within 2 km
+                if (distance < 1.5) { // Skip adding if within 1.5 km
                     return;
                 }
             }
-            // No home marker is within 2 km, so add this marker's position.
+            // No home marker is within 1.5 km, so add this marker's position.
             taxMarkerPositions.add(new double[] { latitude, longitude });
         }
 
