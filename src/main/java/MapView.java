@@ -12,10 +12,15 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Represents a map view displaying an Edmonton map image with various markers and a legend overlay.
+ */
 public class MapView extends Pane {
     private ImageView mapImageView;
+
     private final double minLon = -113.7312, maxLon = -113.2560;
     private final double minLat = 53.3333, maxLat = 53.7162;
+
 
     // List to keep track of home markers' positions (latitude and longitude).
     private List<double[]> homeMarkerPositions = new ArrayList<>();
@@ -24,7 +29,9 @@ public class MapView extends Pane {
 
     private VBox legend; // Legend box
 
-
+    /**
+     * Constructs a new MapView by loading the Edmonton map image and initializing the legend overlay.
+     */
     public MapView() {
         // Load Edmonton Map
         Image mapImage = new Image(getClass().getResource("/edmonton.png").toExternalForm());
@@ -39,6 +46,10 @@ public class MapView extends Pane {
 
         legendOverlay();
     }
+
+    /**
+     * Initializes the legend overlay with icons and labels for different marker types.
+     */
     private void legendOverlay() {
         legend = new VBox(10);
         legend.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); -fx-padding: 10; -fx-border-color: black; -fx-border-radius: 5;");
@@ -62,6 +73,14 @@ public class MapView extends Pane {
         this.getChildren().add(legend);
     }
 
+    /**
+     * Creates a legend item with an icon and its corresponding label.
+     *
+     * @param name the description for the legend item.
+     * @param iconType the FontAwesome icon representing the marker.
+     * @param color the color of the icon.
+     * @return an HBox containing the icon and its label.
+     */
     private HBox createLegendItem(String name, FontAwesomeSolid iconType, Color color) {
         FontIcon icon = new FontIcon(iconType);
         icon.setIconColor(color);
@@ -74,20 +93,29 @@ public class MapView extends Pane {
         return item;
     }
 
+    /**
+     * Adds a marker to the map at the specified latitude and longitude.
+     *
+     * @param latitude the latitude of the marker.
+     * @param longitude the longitude of the marker.
+     * @param markerType the type of marker.
+     * @param property the property assessment object associated with the marker.
+     */
     public void addMarkerHome(double latitude, double longitude, String markerType, PropertyAssessment property) {
-        // If this is a home marker, check if there's already one within 1 km.
+        // If this is a home marker, check if there's already one within 2 km.
         if (markerType.equalsIgnoreCase("home")) {
 
             for (double[] pos : homeMarkerPositions) {
                 double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
-                if (distance < 2.0) { // Skip adding if within 1 km
+                if (distance < 2.0) { // Skip adding if within 2 km
                     return;
                 }
             }
-            // No marker is within 1 km, so add this marker's position.
+            // No marker is within 2 km, so add this marker's position.
             homeMarkerPositions.add(new double[] { latitude, longitude });
         }
 
+        // Calculate x and y coordinates for the marker on the map.
         double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
         double y = (1 - (latitude - minLat) / (maxLat - minLat)) * mapImageView.getFitHeight();
 
@@ -156,18 +184,25 @@ public class MapView extends Pane {
         this.getChildren().addAll(icon, popup);
     }
 
-
+    /**
+     * Adds a tax marker to the map at the specified latitude and longitude.
+     *
+     * @param latitude the latitude of the marker.
+     * @param longitude the longitude of the marker.
+     * @param markerType the type of marker.
+     * @param property the property assessment object associated with the marker.
+     */
     public void addMarkerTax(double latitude, double longitude, String markerType, PropertyAssessment property) {
 
         if (markerType.equalsIgnoreCase("tax")) {
-            // Check if the tax marker is within 1 km of any home marker.
+            // Check if the tax marker is within 2 km of any home marker.
             for (double[] pos : taxMarkerPositions) {
                 double distance = Radius.calculateDistance(pos[0], pos[1], latitude, longitude);
-                if (distance < 2.0) { // Skip adding if within 1 km
+                if (distance < 2.0) { // Skip adding if within 2 km
                     return;
                 }
             }
-            // No home marker is within 1 km, so add this marker's position.
+            // No home marker is within 2 km, so add this marker's position.
             taxMarkerPositions.add(new double[] { latitude, longitude });
         }
 
@@ -199,8 +234,8 @@ public class MapView extends Pane {
 
         icon.setLayoutX(x - 8);
         icon.setLayoutY(y + 8);
-        // Popup Label
 
+        // Popup Label
         Label popup = new Label("Property Tax (Estimate): $" + property.getPropertyTax()
         + "\nAssessed Value: $" + property.getAssessedValue()
                 + "\nAddress: " + property.getAddress());
@@ -238,7 +273,14 @@ public class MapView extends Pane {
         this.getChildren().addAll(icon, popup);
     }
 
-
+    /**
+     * Adds an attraction marker to the map at the specified latitude and longitude.
+     *
+     * @param latitude the latitude of the marker.
+     * @param longitude the longitude of the marker.
+     * @param markerType the type of marker.
+     * @param place the attraction object associated with the marker.
+     */
     public void addMarkerAttraction(double latitude, double longitude, String markerType, Attraction place) {
 
         double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
@@ -308,7 +350,14 @@ public class MapView extends Pane {
         this.getChildren().addAll(icon, popup);
     }
 
-
+    /**
+     * Adds a school marker to the map at the specified latitude and longitude.
+     *
+     * @param latitude the latitude of the marker.
+     * @param longitude the longitude of the marker.
+     * @param markerType the type of marker.
+     * @param school the school object associated with the marker.
+     */
     public void addMarkerSchool(double latitude, double longitude, String markerType, School school) {
 
         double x = (longitude - minLon) / (maxLon - minLon) * mapImageView.getFitWidth();
@@ -380,7 +429,7 @@ public class MapView extends Pane {
         this.getChildren().addAll(icon, popup);
     }
 
-    // Clears all markers from the map and resets the home marker positions.
+    // Clears all markers from the map
     public void clearMarkers() {
         this.getChildren().removeIf(node -> node != mapImageView);
         homeMarkerPositions.clear();
