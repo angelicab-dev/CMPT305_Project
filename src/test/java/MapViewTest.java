@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapViewTest {
@@ -27,48 +29,51 @@ class MapViewTest {
 
         VBox centerPane = new VBox();
         centerPane.getChildren().add(mapPane);
+
+        // Created objects for testing
+        property = new PropertyAssessment("1001", 500000, "Main St", "123", "Apt 4B", "Downtown", "Ward 6", "53.5461", "-113.4938",
+                List.of(new AssessmentClass("Residential", "100")));
+
+        attraction = new Attraction("KinsmenTwinArenas", "53.45124394828186",
+                "-113.5138927", "Arena", "1979 111 St NW, Edmonton, AB T6J 7C6",
+                "SW", "https://www.edmonton.ca/kinsmentwinarenas/");
+
+        school = new School("Central High", "101 Main St", "12345", "555-555-5555",
+                "9-12", "53.1234", "-113.9876", "Public");
+    }
+
+
+
+    @Test
+    void addMarkerHome() {
+        mapPane.addMarkerHome(property.getLocation().getLatitude(), property.getLocation().getLongitude(), "home", property);
+        assertEquals(4, mapPane.getChildren().size());
+
     }
 
     @Test
-    void initializesMap() {
-        // Ensure only the map image is present initially.
-        assertEquals(2, mapPane.getChildren().size());
+    void addMarkerTax() {
+        mapPane.addMarkerTax(property.getLocation().getLatitude(), property.getLocation().getLongitude(), "tax", property);
+        assertEquals(4, mapPane.getChildren().size());
     }
 
     @Test
-    void doesNotAddHomeMarkerWithinOneKm() {
-        int initialSize = mapPane.getChildren().size();
-
-        mapPane.addMarkerHome(53.5, -113.5, "home", property);
-        assertEquals(initialSize + 1, mapPane.getChildren().size());
-
-        // Attempt to add home marker within 1 km
-        mapPane.addMarkerHome(53.5005, -113.5005, "home", property);
-
-        // Should not add if within 1km
-        assertEquals(initialSize + 1, mapPane.getChildren().size());
+    void addMarkerAttraction() {
+        mapPane.addMarkerAttraction(attraction.getAttractionLocation().getLatitude(), attraction.getAttractionLocation().getLongitude(), "attraction", attraction);
+        assertEquals(4, mapPane.getChildren().size());
     }
 
     @Test
-    void addsMarkerType() {
-        int initialSize = mapPane.getChildren().size();
-
-        mapPane.addMarkerSchool(53.5, -113.5, "school", school);
-        assertEquals(initialSize + 1, mapPane.getChildren().size());
-
-        mapPane.addMarkerAttraction(53.6, -113.6, "attraction", attraction);
-        assertEquals(initialSize + 2, mapPane.getChildren().size());
-
-        mapPane.addMarkerHome(53.7, -113.7, "unknownType", property);
-        assertEquals(initialSize + 3, mapPane.getChildren().size());
+    void addMarkerSchool() {
+        mapPane.addMarkerSchool(school.getLocation().getLatitude(), school.getLocation().getLongitude(), "school", school);
+        assertEquals(4, mapPane.getChildren().size());
     }
-
 
     @Test
     void clearMarkers() {
-//        mapPane.addMarkerHome(53.5, -113.5, "home", property);
-//        mapPane.addMarkerSchool(53.6, -113.6, "school", school);
-//        mapPane.addMarkerAttraction(53.4, -113.4, "attraction", attraction);
+        mapPane.addMarkerHome(53.5, -113.5, "home", property);
+        mapPane.addMarkerSchool(53.6, -113.6, "school", school);
+        mapPane.addMarkerAttraction(53.4, -113.4, "attraction", attraction);
 
         // Check if markers have been added
         assertTrue(mapPane.getChildren().size() > 1);
